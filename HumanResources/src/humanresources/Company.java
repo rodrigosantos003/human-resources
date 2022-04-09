@@ -23,9 +23,8 @@ public class Company {
     
     public Company(double workDayValue){
         employees = new ArrayList<>();
-        if(workDayValue > 0){
-            this.workDayValue = workDayValue;
-        }
+        if(workDayValue > 0)
+            this.workDayValue = workDayValue;        
     }
     
     //devolve o total de empregados da empresa
@@ -36,9 +35,8 @@ public class Company {
     //devolve o índice de um empregado com um determinado código, se existir
     public int getIndexOfEmployee(int code){
         for(Employee employee : employees){
-            if(employee.getCode() == code){
+            if(employee.getCode() == code)
                 return employees.indexOf(employee);
-            }
         }
         
         return -1;
@@ -54,11 +52,20 @@ public class Company {
         Date entryDate;
         Employee newEmployee;
         
+        System.out.print("Nome> ");
         name = scanner.nextLine();
+        
         do{
-            code = random.nextInt(getTotalEmployees()) + 1;
+            int totalEmployees = getTotalEmployees();
+            if(totalEmployees != 0)
+                code = random.nextInt(totalEmployees) + 1;
+            else
+                code = 1;
         }while(getIndexOfEmployee(code) != -1);
+        
         entryDate = new Date(LocalDate.now().getDayOfMonth(), LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+        
+        System.out.print("Categoria> ");
         String category = scanner.nextLine();
         
         newEmployee = new Employee(name, code, entryDate, category);
@@ -67,35 +74,25 @@ public class Company {
     
    //obtém a ficha de um empregado, através do seu código
     public void employeeRecord(int code){
-        for(Employee employee : employees){
-            if(employee.getCode() == code){
-                System.out.println("Nome: " + employee.getName());
-                System.out.println("Código: " + employee.getCode());
-                System.out.println("Data de Entrada: " + employee.getEntryDate());
-                System.out.println("Categoria: " + employee.getCategory());
-            }
-        }
+        int index = getIndexOfEmployee(code);
+        if(index != -1)
+            employees.get(index);
+        else
+            System.out.println("O empregado não existe");
     }
     
     //obtém as fichas de todos os empregados
     public void employeeRecords(){
-        for(Employee empregado : employees){
-            System.out.println("Nome: " + empregado.getName());
-            System.out.println("Código: " + empregado.getCode());
-            System.out.println("Data de Entrada: " + empregado.getEntryDate());
-            System.out.println("Categoria: " + empregado.getCategory());
+        for(Employee employee : employees){
+            employee.showInformation();
         }
     }
     
     //obtém as fichas de todos os empregados de uma determinada categoria
     public void employeeRecords(String category){
         for(Employee employee : employees){
-            if(employee.getCategory().equals(category)){
-                System.out.println("Nome: " + employee.getName());
-                System.out.println("Código: " + employee.getCode());
-                System.out.println("Data de Entrada: " + employee.getEntryDate());
-                System.out.println("Categoria: " + employee.getCategory());
-            }
+            if(employee.getCategory().equals(category))
+                employee.showInformation();
         }
     }
 }

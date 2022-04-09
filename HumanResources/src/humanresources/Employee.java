@@ -52,4 +52,11 @@ public class Employee {
     public void setWorkedDays(int month, int days){
         workedDays[month] = days;
     }
+    
+    public void showInformation(){
+        System.out.println("Nome: " + name);
+        System.out.println("Código: " + code);
+        System.out.println("Data de Entrada: " + entryDate);
+        System.out.println("Categoria: " + category);
+    }
 }
