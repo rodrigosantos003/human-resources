@@ -14,17 +14,11 @@ import java.time.LocalDate;
  */
 public class Company {
     private ArrayList<Employee> employees;
-    private double workDayValue;
+    private CompanyValues values;
     
     public Company(){
         employees = new ArrayList<>();
-        workDayValue = 32.48;
-    }
-    
-    public Company(double workDayValue){
-        employees = new ArrayList<>();
-        if(workDayValue > 0)
-            this.workDayValue = workDayValue;        
+        values = new CompanyValues();
     }
     
     //devolve o total de empregados da empresa
@@ -94,5 +88,12 @@ public class Company {
             if(employee.getCategory().equals(category))
                 employee.showInformation();
         }
+    }
+    
+    //altera os valores fixados pela empresa
+    public void changeCompanyValues(double workDayValue, double kilometerValue, double salesPercentage){
+        values.setWorkDayValue(workDayValue);
+        values.setKilometerValue(kilometerValue);
+        values.setSalesPercentage(salesPercentage);
     }
 }
