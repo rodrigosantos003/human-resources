@@ -43,8 +43,8 @@ public class Employee {
         return code;
     }
 
-    public String getEntryDate() {
-        return entryDate.toString();
+    public Date getEntryDate() {
+        return entryDate;
     }
 
     public int getWorkedDays() {

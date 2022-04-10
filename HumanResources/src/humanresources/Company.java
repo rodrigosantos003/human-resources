@@ -102,4 +102,31 @@ public class Company {
         values.setKilometerValue(kilometerValue);
         values.setSalesPercentage(salesPercentage);
     }
+
+    //calcula o salário de um empregado
+    public double employeeSalary(int employeeCode) {
+        int index = getIndexOfEmployee(employeeCode);
+        Employee employee = employees.get(index);
+        double total = 0;
+        Scanner scanner = new Scanner(System.in);
+
+        total += values.getWorkDayValue() * employee.getWorkedDays();
+        total += values.getSeniorityAward() * (LocalDate.now().getYear() - employee.getEntryDate().getYear());
+        total += values.getFoodAllowance() * employee.getWorkedDays();
+
+        switch (employee.getCategory().toUpperCase()) {
+            case "GESTOR":
+                total += total * 0.15;
+            case "MOTORISTA":
+                System.out.print("Quilómetros Percorridos> ");
+                double kilometers = scanner.nextDouble();
+                total += values.getKilometerValue() * kilometers;
+            case "COMERCIAL":
+                System.out.print("Vendas Realizadas> ");
+                int sales = scanner.nextInt();
+                total += values.getSalesPercentage() * sales;
+        }
+
+        return total;
+    }
 }
