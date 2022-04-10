@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package humanresources;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
@@ -13,85 +14,90 @@ import java.time.LocalDate;
  * @author Rodrigo Santos
  */
 public class Company {
+
     private ArrayList<Employee> employees;
     private CompanyValues values;
-    
-    public Company(){
+
+    public Company() {
         employees = new ArrayList<>();
         values = new CompanyValues();
     }
-    
+
     //devolve o total de empregados da empresa
-    public int getTotalEmployees(){
+    public int getTotalEmployees() {
         return employees.size();
     }
-    
+
     //devolve o índice de um empregado com um determinado código, se existir
-    public int getIndexOfEmployee(int code){
-        for(Employee employee : employees){
-            if(employee.getCode() == code)
+    public int getIndexOfEmployee(int code) {
+        for (Employee employee : employees) {
+            if (employee.getCode() == code) {
                 return employees.indexOf(employee);
+            }
         }
-        
+
         return -1;
     }
-    
+
     //adiciona uma ficha de empregado
-    public void addEmployee(){  
+    public void addEmployee() {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
-        
+
         int code = 0;
         String name;
         Date entryDate;
         Employee newEmployee;
-        
+
         System.out.print("Nome> ");
         name = scanner.nextLine();
-        
-        do{
+
+        do {
             int totalEmployees = getTotalEmployees();
-            if(totalEmployees != 0)
+            if (totalEmployees != 0) {
                 code = random.nextInt(totalEmployees) + 1;
-            else
+            } else {
                 code = 1;
-        }while(getIndexOfEmployee(code) != -1);
-        
+            }
+        } while (getIndexOfEmployee(code) != -1);
+
         entryDate = new Date(LocalDate.now().getDayOfMonth(), LocalDate.now().getMonthValue(), LocalDate.now().getYear());
-        
+
         System.out.print("Categoria> ");
         String category = scanner.nextLine();
-        
+
         newEmployee = new Employee(name, code, entryDate, category);
         employees.add(newEmployee);
     }
-    
-   //obtém a ficha de um empregado, através do seu código
-    public void employeeRecord(int code){
+
+    //obtém a ficha de um empregado, através do seu código
+    public void employeeRecord(int code) {
         int index = getIndexOfEmployee(code);
-        if(index != -1)
+        if (index != -1) {
             employees.get(index);
-        else
+        } else {
             System.out.println("O empregado não existe");
+        }
     }
-    
+
     //obtém as fichas de todos os empregados
-    public void employeeRecords(){
-        for(Employee employee : employees){
+    public void employeeRecords() {
+        for (Employee employee : employees) {
             employee.showInformation();
         }
     }
-    
+
     //obtém as fichas de todos os empregados de uma determinada categoria
-    public void employeeRecords(String category){
-        for(Employee employee : employees){
-            if(employee.getCategory().equals(category))
+    public void employeeRecords(String category) {
+        for (Employee employee : employees) {
+            if (employee.getCategory().equals(category)) {
                 employee.showInformation();
+            }
         }
     }
-    
+
     //altera os valores fixados pela empresa
-    public void changeCompanyValues(double workDayValue, double kilometerValue, double salesPercentage){
+    public void changeCompanyValues(double workDayValue, double kilometerValue, double salesPercentage) {
         values.setWorkDayValue(workDayValue);
         values.setKilometerValue(kilometerValue);
         values.setSalesPercentage(salesPercentage);

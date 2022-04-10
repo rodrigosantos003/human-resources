@@ -9,49 +9,50 @@ package humanresources;
  * @author Rodrigo Santos
  */
 public class CompanyValues {
+
     private double workDayValue;
     private double kilometerValue;
     private double salesPercentage;
     private double seniorityAward;
     private double foodAllowance;
-    
-    public CompanyValues(){
+
+    public CompanyValues() {
         workDayValue = 32.48;
         kilometerValue = 10;
         salesPercentage = 2.3;
         seniorityAward = 0.5;
         foodAllowance = 4.79;
     }
-    
-    public double getWorkDayValue(){
+
+    public double getWorkDayValue() {
         return workDayValue;
     }
-    
-    public double getKilometerValue(){
+
+    public double getKilometerValue() {
         return kilometerValue;
     }
-    
-    public double getSalesPercentage(){
+
+    public double getSalesPercentage() {
         return salesPercentage;
     }
-    
-    public double getSeniorityAward(){
+
+    public double getSeniorityAward() {
         return seniorityAward;
     }
-    
-    public double getFoodAllowance(){
+
+    public double getFoodAllowance() {
         return foodAllowance;
     }
-    
-    public void setWorkDayValue(double value){
+
+    public void setWorkDayValue(double value) {
         workDayValue = value;
     }
-    
-    public void setKilometerValue(double value){
+
+    public void setKilometerValue(double value) {
         kilometerValue = value;
     }
-    
-    public void setSalesPercentage(double value){
+
+    public void setSalesPercentage(double value) {
         salesPercentage = value;
     }
 }

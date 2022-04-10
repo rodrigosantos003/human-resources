@@ -18,5 +18,5 @@ public class Main {
         company.addEmployee();
         company.employeeRecords();
     }
-    
+
 }

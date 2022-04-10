@@ -3,12 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package humanresources;
+
 import java.time.LocalDate;
+
 /**
  *
  * @author Rodrigo Santos
  */
 public class Date {
+
     private int day;
     private int month;
     private int year;
@@ -27,17 +30,17 @@ public class Date {
     }
 
     private boolean validateDate(int day, int month, int year) {
-        if( year < 1582 ){
+        if (year < 1582) {
             return false;
         }
-        if( month < 1 || month > 12){
+        if (month < 1 || month > 12) {
             return false;
         }
-        if( day < 1 || day > daysOfMonth(month,year) ){
+        if (day < 1 || day > daysOfMonth(month, year)) {
             return false;
         }
-        if( year == 1582 ){
-            if(month < 10 || month==10 && day<15){
+        if (year == 1582) {
+            if (month < 10 || month == 10 && day < 15) {
                 return false;
             }
         }
@@ -119,8 +122,7 @@ public class Date {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return day + "/" + month + "/" + year;
     }
 }
