@@ -6,7 +6,8 @@ package humanresources;
 
 /**
  *
- * @author Rodrigo Santos
+ * @authors Rodrigo Santos & João Fernandes
+ * @lastmod 2022-04-11
  */
 public class Main {
 
@@ -15,6 +16,7 @@ public class Main {
      */
     public static void main(String[] args) {
         Company company = new Company();
+        company.addEmployee();
         company.addEmployee();
         company.employeeRecords();
     }

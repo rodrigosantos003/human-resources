@@ -8,7 +8,8 @@ import java.time.LocalDate;
 
 /**
  *
- * @author Rodrigo Santos
+ * @authors Rodrigo Santos & João Fernandes
+ * @lastmod 2022-04-07
  */
 public class Date {
 

@@ -5,13 +5,13 @@
 package humanresources;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.Random;
 import java.time.LocalDate;
 
 /**
  *
- * @author Rodrigo Santos
+ * @authors Rodrigo Santos & João Fernnandes
+ * @lastmod 2022-04-11 
  */
 public class Company {
 
@@ -21,6 +21,17 @@ public class Company {
     public Company() {
         employees = new ArrayList<>();
         values = new CompanyValues();
+    }
+    
+    //altera os valores fixados pela empresa
+    public void changeCompanyValues(double workDayValue, double kilometerValue, double salesPercentage) {
+        if (workDayValue > 0 && kilometerValue > 0 && salesPercentage > 0) {
+            values.setWorkDayValue(workDayValue);
+            values.setKilometerValue(kilometerValue);
+            values.setSalesPercentage(salesPercentage);
+        } else{
+            System.out.println("ERRO: Dados inválidos!");
+        }
     }
 
     //devolve o total de empregados da empresa
@@ -41,32 +52,24 @@ public class Company {
 
     //adiciona uma ficha de empregado
     public void addEmployee() {
-        Scanner scanner = new Scanner(System.in);
+        InputReader input = new InputReader();
         Random random = new Random();
         LocalDate localDate = LocalDate.now();
 
         int code = 0;
         String name;
+        String category;
         Date entryDate;
         Employee newEmployee;
-        
+
         //leitura do nome
-        System.out.print("Nome> ");
-        name = scanner.nextLine();
-        
+        name = input.getText("Nome");
+
         //leitura da categoria
-        System.out.print("Categoria> ");
-        String category = scanner.nextLine();
-        
+        category = input.getText("Categoria");
+
         //atribuição do código
-        do {
-            int totalEmployees = getTotalEmployees();
-            if (totalEmployees != 0) {
-                code = random.nextInt(totalEmployees) + 1;
-            } else {
-                code = 1;
-            }
-        } while (getIndexOfEmployee(code) != -1);
+        code = getTotalEmployees() + 1;
 
         //atribuição da data de entrada
         entryDate = new Date(localDate.getDayOfMonth(), localDate.getMonthValue(), localDate.getYear());
@@ -79,9 +82,9 @@ public class Company {
     public void employeeRecord(int code) {
         int index = getIndexOfEmployee(code);
         if (index != -1) {
-            employees.get(index);
+            employees.get(index).showInformation();
         } else {
-            System.out.println("O empregado não existe");
+            System.out.println("ERRO: O empregado não existe!");
         }
     }
 
@@ -100,38 +103,43 @@ public class Company {
             }
         }
     }
-
-    //altera os valores fixados pela empresa
-    public void changeCompanyValues(double workDayValue, double kilometerValue, double salesPercentage) {
-        values.setWorkDayValue(workDayValue);
-        values.setKilometerValue(kilometerValue);
-        values.setSalesPercentage(salesPercentage);
+    
+    //incrementa o número de dias trabalhados dos empregados
+    public void increaseWorkedDays(){
+        int month = LocalDate.now().getMonthValue();
+        
+        for(Employee employee : employees){
+            employee.setWorkedDays(month, employee.getWorkedDays() + 1);
+        }
     }
 
     //calcula o salário de um empregado
     public double employeeSalary(int employeeCode) {
         int index = getIndexOfEmployee(employeeCode);
         Employee employee = employees.get(index);
-        double total = 0;
-        Scanner scanner = new Scanner(System.in);
 
-        total += values.getWorkDayValue() * employee.getWorkedDays();
-        total += values.getSeniorityAward() * (LocalDate.now().getYear() - employee.getEntryDate().getYear());
-        total += values.getFoodAllowance() * employee.getWorkedDays();
+        if (index != -1) {
+            double total = 0;
+            InputReader input = new InputReader();
 
-        switch (employee.getCategory().toUpperCase()) {
-            case "GESTOR":
-                total += total * 0.15;
-            case "MOTORISTA":
-                System.out.print("Quilómetros Percorridos> ");
-                double kilometers = scanner.nextDouble();
-                total += values.getKilometerValue() * kilometers;
-            case "COMERCIAL":
-                System.out.print("Vendas Realizadas> ");
-                int sales = scanner.nextInt();
-                total += values.getSalesPercentage() * sales;
+            total += values.getWorkDayValue() * employee.getWorkedDays();
+            total += values.getSeniorityAward() * (LocalDate.now().getYear() - employee.getEntryDate().getYear());
+            total += values.getFoodAllowance() * employee.getWorkedDays();
+
+            switch (employee.getCategory().toUpperCase()) {
+                case "GESTOR":
+                    total += total * 0.15;
+                case "MOTORISTA":
+                    double kilometers = input.getRealNumber("Quilómetros percorridos");
+                    total += values.getKilometerValue() * kilometers;
+                case "COMERCIAL":
+                    int sales = input.getIntegerNumber("Vendas realizadas");
+                    total += values.getSalesPercentage() * sales;
+            }
+
+            return total;
         }
 
-        return total;
+        return -1;
     }
 }

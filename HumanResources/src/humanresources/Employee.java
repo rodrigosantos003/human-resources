@@ -79,9 +79,11 @@ public class Employee {
     }
 
     public void showInformation() {
+        System.out.println("************");
         System.out.println("Nome: " + name);
         System.out.println("Código: " + code);
-        System.out.println("Data de Entrada: " + entryDate);
+        System.out.println("Data de Entrada: " + entryDate.toString());
         System.out.println("Categoria: " + category);
+        System.out.println("************\n");
     }
 }

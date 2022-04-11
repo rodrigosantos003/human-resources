@@ -6,7 +6,8 @@ package humanresources;
 
 /**
  *
- * @author Rodrigo Santos
+ * @authors Rodrigo Santos & João Fernandes
+ * @lastmod 2022-04-10
  */
 public class CompanyValues {
 
