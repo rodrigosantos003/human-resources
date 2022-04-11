@@ -43,15 +43,22 @@ public class Company {
     public void addEmployee() {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
+        LocalDate localDate = LocalDate.now();
 
         int code = 0;
         String name;
         Date entryDate;
         Employee newEmployee;
-
+        
+        //leitura do nome
         System.out.print("Nome> ");
         name = scanner.nextLine();
-
+        
+        //leitura da categoria
+        System.out.print("Categoria> ");
+        String category = scanner.nextLine();
+        
+        //atribuição do código
         do {
             int totalEmployees = getTotalEmployees();
             if (totalEmployees != 0) {
@@ -61,10 +68,8 @@ public class Company {
             }
         } while (getIndexOfEmployee(code) != -1);
 
-        entryDate = new Date(LocalDate.now().getDayOfMonth(), LocalDate.now().getMonthValue(), LocalDate.now().getYear());
-
-        System.out.print("Categoria> ");
-        String category = scanner.nextLine();
+        //atribuição da data de entrada
+        entryDate = new Date(localDate.getDayOfMonth(), localDate.getMonthValue(), localDate.getYear());
 
         newEmployee = new Employee(name, code, entryDate, category);
         employees.add(newEmployee);
