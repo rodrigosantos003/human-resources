@@ -78,6 +78,9 @@ public class Employee {
         return false;
     }
 
+    /**
+     * Mostra a informação do empregado
+     */
     public void showInformation() {
         System.out.println("************");
         System.out.println("Nome: " + name);

@@ -5,13 +5,12 @@
 package humanresources;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.time.LocalDate;
 
 /**
  *
  * @authors Rodrigo Santos & João Fernnandes
- * @lastmod 2022-04-11 
+ * @lastmod 2022-04-11
  */
 public class Company {
 
@@ -22,24 +21,40 @@ public class Company {
         employees = new ArrayList<>();
         values = new CompanyValues();
     }
-    
-    //altera os valores fixados pela empresa
+
+    /**
+     * Altera os valores fixados pela empresa
+     *
+     * @param workDayValue valor por dia de trabalho
+     * @param kilometerValue valor por quilómetro percorrido
+     * @param salesPercentage valor da percentagem das vendas realizadas
+     */
     public void changeCompanyValues(double workDayValue, double kilometerValue, double salesPercentage) {
         if (workDayValue > 0 && kilometerValue > 0 && salesPercentage > 0) {
             values.setWorkDayValue(workDayValue);
             values.setKilometerValue(kilometerValue);
             values.setSalesPercentage(salesPercentage);
-        } else{
+        } else {
             System.out.println("ERRO: Dados inválidos!");
         }
     }
 
-    //devolve o total de empregados da empresa
+    /**
+     * Devolve o total de empregados da empresa
+     *
+     * @return Tamanho da ArrayList
+     */
     public int getTotalEmployees() {
         return employees.size();
     }
 
-    //devolve o índice de um empregado com um determinado código, se existir
+    /**
+     * Devolve o índice de um empregado com um determinado código, se existir
+     *
+     * @param code código do empregado
+     * @return Índice do empregado na ArrayList (caso exista) ou -1 (caso não
+     * exista)
+     */
     public int getIndexOfEmployee(int code) {
         for (Employee employee : employees) {
             if (employee.getCode() == code) {
@@ -50,13 +65,14 @@ public class Company {
         return -1;
     }
 
-    //adiciona uma ficha de empregado
+    /**
+     * Adiciona uma ficha de empregado
+     */
     public void addEmployee() {
         InputReader input = new InputReader();
-        Random random = new Random();
         LocalDate localDate = LocalDate.now();
 
-        int code = 0;
+        int code;
         String name;
         String category;
         Date entryDate;
@@ -78,7 +94,11 @@ public class Company {
         employees.add(newEmployee);
     }
 
-    //obtém a ficha de um empregado, através do seu código
+    /**
+     * Obtém a ficha de um empegado, através do seu código
+     *
+     * @param code código do empregado
+     */
     public void employeeRecord(int code) {
         int index = getIndexOfEmployee(code);
         if (index != -1) {
@@ -88,14 +108,20 @@ public class Company {
         }
     }
 
-    //obtém as fichas de todos os empregados
+    /**
+     * Obtém as fichas de todos os empregados
+     */
     public void employeeRecords() {
         for (Employee employee : employees) {
             employee.showInformation();
         }
     }
 
-    //obtém as fichas de todos os empregados de uma determinada categoria
+    /**
+     * Obtém as fichas de todos os empregados de uma determinada categoria
+     *
+     * @param category categoria de empregados
+     */
     public void employeeRecords(String category) {
         for (Employee employee : employees) {
             if (employee.getCategory().equals(category)) {
@@ -103,19 +129,26 @@ public class Company {
             }
         }
     }
-    
-    //incrementa o número de dias trabalhados dos empregados
-    public void increaseWorkedDays(){
+
+    /**
+     * Incrementa o número de dias trabalhados dos empregados
+     */
+    public void increaseWorkedDays() {
         int month = LocalDate.now().getMonthValue();
-        
-        for(Employee employee : employees){
+
+        for (Employee employee : employees) {
             employee.setWorkedDays(month, employee.getWorkedDays() + 1);
         }
     }
 
-    //calcula o salário de um empregado
-    public double employeeSalary(int employeeCode) {
-        int index = getIndexOfEmployee(employeeCode);
+    /**
+     * Devolve o salário de um empregado
+     *
+     * @param code código do empregado
+     * @return Valor final do salário
+     */
+    public double employeeSalary(int code) {
+        int index = getIndexOfEmployee(code);
         Employee employee = employees.get(index);
 
         if (index != -1) {
@@ -135,6 +168,8 @@ public class Company {
                 case "COMERCIAL":
                     int sales = input.getIntegerNumber("Vendas realizadas");
                     total += values.getSalesPercentage() * sales;
+                default:
+                    break;
             }
 
             return total;
