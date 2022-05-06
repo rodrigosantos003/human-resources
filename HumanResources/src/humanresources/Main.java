@@ -7,7 +7,6 @@ package humanresources;
 /**
  *
  * @authors Rodrigo Santos & João Fernandes
- * @lastmod 2022-04-11
  */
 public class Main {
 
@@ -15,10 +14,12 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Company company = new Company();
+        //TESTS
+        Company company = new Company("XPTO");
         company.addEmployee();
         company.addEmployee();
-        company.employeeRecords();
+        company.employeeRecordsByCategory();
+        System.out.println(company);
     }
 
 }

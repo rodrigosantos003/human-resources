@@ -9,6 +9,7 @@ import java.time.LocalDate;
 /**
  *
  * @author Rodrigo Santos
+ * @lastmod 2022-05-06
  */
 public class Employee {
 
@@ -19,20 +20,18 @@ public class Employee {
     private String category;
 
     public Employee(String name, int code, Date entryDate, String category) {
-        if (!name.equals("") && code > 0 && entryDate != null && !category.equals("")) {
+        if (validateEmployeeData(name, code, entryDate, category)) {
             this.name = name;
             this.code = code;
             this.entryDate = entryDate;
-            workedDays = new int[12];
-
-            if (validateCategory(category)) {
-                this.category = category;
-            } else {
-                this.category = "Normal";
-            }
+            this.category = category;
         } else {
-            System.out.println("ERRO: Dados inválidos!");
+            this.name = "UNKNOWN";
+            this.code = 5000;
+            this.category = "Normal";
         }
+
+        this.workedDays = new int[12];
     }
 
     public String getName() {
@@ -49,7 +48,6 @@ public class Employee {
 
     public int getWorkedDays() {
         int month = LocalDate.now().getMonthValue() - 1;
-
         return workedDays[month];
     }
 
@@ -59,6 +57,40 @@ public class Employee {
 
     public void setWorkedDays(int month, int days) {
         workedDays[month] = days;
+    }
+
+    /**
+     * Calcula a antiguidade de um empregado na empresa
+     *
+     * @return Antiguidade na empresa
+     */
+    public int seniority() {
+        return LocalDate.now().getYear() - entryDate.getYear();
+    }
+
+    @Override
+    public String toString() {
+        return "Código: " + code + "\n"
+                + "Nome: " + name + "\n"
+                + "Categoria: " + category + "\n"
+                + "Data Entrada: " + entryDate.toString() + "\n";
+    }
+
+    /*
+      Validação de dados
+     */
+    private boolean validateEmployeeData(String name, int code, Date entryDate, String category) {
+        if (name.isBlank()) {
+            return false;
+        }
+        if (code <= 0) {
+            return false;
+        }
+        if (entryDate == null) {
+            return false;
+        }
+
+        return validateCategory(category);
     }
 
     private boolean validateCategory(String category) {
@@ -76,17 +108,5 @@ public class Employee {
         }
 
         return false;
-    }
-
-    /**
-     * Mostra a informação do empregado
-     */
-    public void showInformation() {
-        System.out.println("************");
-        System.out.println("Nome: " + name);
-        System.out.println("Código: " + code);
-        System.out.println("Data de Entrada: " + entryDate.toString());
-        System.out.println("Categoria: " + category);
-        System.out.println("************\n");
     }
 }
