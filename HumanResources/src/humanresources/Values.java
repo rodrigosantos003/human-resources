@@ -74,10 +74,6 @@ public class Values {
         if (kilometerValue <= 0) {
             return false;
         }
-        if (salesPercentage <= 0) {
-            return false;
-        }
-
-        return true;
+        return salesPercentage > 0;
     }
 }

@@ -20,8 +20,18 @@ public class Company {
 
     public Company(String name) {
         this.name = name;
-        this.employees = new ArrayList<Employee>();
+        this.employees = new ArrayList<>();
         this.values = new Values(68.18, 3.25, 0.2);
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        if (!name.isBlank()) {
+            this.name = name;
+        }
     }
 
     /**
@@ -205,6 +215,37 @@ public class Company {
     }
 
     /**
+     * Devolve o total de salários a pagar
+     *
+     * @return Valor total de salários
+     */
+    public double totalInSalaries() {
+        double total = 0.0;
+        for (Employee employee : employees) {
+            total += employeeSalary(employee.getCode());
+        }
+
+        return total;
+    }
+
+    /**
+     * Devolve o número total de empregados de uma dada categoria
+     *
+     * @param category Categoria de empregados
+     * @return Número total de empregados da categoria
+     */
+    public int totalEmployeesInCategory(String category) {
+        int total = 0;
+        for (Employee employee : employees) {
+            if (employee.getCategory().toUpperCase().equals(category)) {
+                total++;
+            }
+        }
+
+        return total;
+    }
+
+    /**
      * Incrementa o número de dias trabalhados dos empregados
      */
     public void increaseWorkedDays() {
@@ -217,7 +258,7 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Empresa: " + name + "\n"
+        return "Empresa: " + getName() + "\n"
                 + "Total de empregados: " + getTotalEmployees() + "\n";
     }
 }

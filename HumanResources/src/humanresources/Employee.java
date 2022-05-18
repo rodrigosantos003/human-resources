@@ -5,6 +5,8 @@
 package humanresources;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
 
 /**
  *
@@ -65,7 +67,8 @@ public class Employee {
      * @return Antiguidade na empresa
      */
     public int seniority() {
-        return LocalDate.now().getYear() - entryDate.getYear();
+        LocalDate localEntryDate = LocalDate.of(entryDate.getYear(), entryDate.getMonth(), entryDate.getDay());
+        return Period.between(localEntryDate, LocalDate.now()).getYears();
     }
 
     @Override
