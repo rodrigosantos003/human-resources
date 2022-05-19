@@ -21,7 +21,7 @@ public class Company {
     public Company(String name) {
         this.name = name;
         this.employees = new ArrayList<>();
-        this.values = new Values(68.18, 3.25, 0.2);
+        this.values = new Values(68.18, 3.25, 0.2, 22);
     }
 
     public String getName() {
@@ -87,20 +87,24 @@ public class Company {
 
         switch (category.toUpperCase()) {
             case "GESTOR":
-                newEmployee = new Manager(name, code, entryDate);
+                newEmployee = new Manager(name, code, entryDate, this.values);
                 break;
             case "MOTORISTA":
-                newEmployee = new Driver(name, code, entryDate);
+                newEmployee = new Driver(name, code, entryDate, this.values);
                 break;
             case "COMERCIAL":
-                newEmployee = new Salesman(name, code, entryDate);
+                newEmployee = new Salesman(name, code, entryDate, this.values);
                 break;
             default:
-                newEmployee = new Employee(name, code, entryDate, "Normal");
+                newEmployee = new NormalEmployee(name, code, entryDate, this.values);
                 break;
         }
 
         employees.add(newEmployee);
+    }
+    
+    public void addMultipleEmployees(ArrayList<Employee> employees){
+        this.employees.addAll(employees);
     }
 
     /**
@@ -181,37 +185,10 @@ public class Company {
         System.out.println("COMERCIAIS");
         employeeRecords("COMERCIAL");
         System.out.println("");
-    }
-
-    /**
-     * Devolve o salário de um empregado
-     *
-     * @param code Código do empregado
-     * @return Valor total do salário
-     */
-    public double employeeSalary(int code) {
-        Employee employee = getEmployee(code);
-        double total = 0.0;
-
-        String category = employee.getCategory();
-
-        total += employee.getWorkedDays() * values.getWorkdayValue();
-        total += employee.getWorkedDays() * values.getFoodAllowance();
-        total += employee.seniority() * values.getSeniorityAward();
-
-        switch (category.toUpperCase()) {
-            case "GESTOR":
-                total += total * ((Manager) employee).getBonus();
-                break;
-            case "MOTORISTA":
-                total += ((Driver) employee).getKilometers() * values.getKilometerValue();
-                break;
-            case "COMERCIAL":
-                total += ((Salesman) employee).getSales() * values.getSalesPercentage();
-                break;
-        }
-
-        return total;
+        
+        System.out.println("NORMAIS");
+        employeeRecords("NORMAL");
+        System.out.println("");
     }
 
     /**
@@ -222,12 +199,57 @@ public class Company {
     public double totalInSalaries() {
         double total = 0.0;
         for (Employee employee : employees) {
-            total += employeeSalary(employee.getCode());
+            total += employee.calculateSalary();
         }
 
         return total;
     }
 
+    public void showCosts(){
+        double cost = 0.0;
+        System.out.println("*** CUSTOS TRIMESTRAIS ***");
+        
+        System.out.print("Primeiro trimestre: ");
+        cost = calculateCosts(0,2);
+        System.out.println(" " + cost);
+        
+        System.out.print("Segundo trimestre: ");
+        cost = calculateCosts(3,5);
+        System.out.println(" " + cost);
+        
+        System.out.print("Terceiro trimestre: ");
+        cost = calculateCosts(6,8);
+        System.out.println(" " + cost);
+        
+        System.out.print("Quarto trimestre: ");
+        cost = calculateCosts(9,11);
+        System.out.println(" " + cost);
+        
+        
+        System.out.println("\n\n*** CUSTOS SEMESTRAIS ***");
+        
+        System.out.print("Primeiro semestre: ");
+        cost = calculateCosts(0,5);
+        System.out.println(" " + cost);
+        
+        System.out.print("Segundo semestre: ");
+        cost = calculateCosts(6,11);
+        System.out.println(" " + cost);
+        
+        
+        System.out.print("\n\n*** CUSTO ANUAL:");
+        cost = calculateCosts(0,11);
+        System.out.println(" " + cost);
+    }
+    
+    
+    private double calculateCosts(int startingMonth, int finalMonth){
+        double total = 0.0;
+        for(Employee employee : this.employees){
+            total += employee.calculateMultipleSalaries(startingMonth, finalMonth);
+        }
+        return total;
+    }
     /**
      * Devolve o número total de empregados de uma dada categoria
      *
@@ -249,8 +271,7 @@ public class Company {
      * Incrementa o número de dias trabalhados dos empregados
      */
     public void increaseWorkedDays() {
-        int month = LocalDate.now().getMonthValue();
-
+        int month = LocalDate.now().getMonthValue() - 1;
         for (Employee employee : employees) {
             employee.setWorkedDays(month, employee.getWorkedDays() + 1);
         }

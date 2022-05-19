@@ -16,16 +16,19 @@ public class Values {
     private double seniorityAward;
     private double kilometerValue;
     private double salesPercentage;
+    private double maxWorkDays;
 
-    public Values(double workdayValue, double kilometerValue, double salesPercentage) {
-        if (validateValues(workdayValue, kilometerValue, salesPercentage)) {
+    public Values(double workdayValue, double kilometerValue, double salesPercentage, int maxWorkDays) {
+        if (validateValues(workdayValue, kilometerValue, salesPercentage, maxWorkDays)) {
             this.workdayValue = workdayValue;
             this.kilometerValue = kilometerValue;
             this.salesPercentage = salesPercentage;
+            this.maxWorkDays = maxWorkDays;
         } else {
             this.workdayValue = 68.18;
             this.kilometerValue = 3.25;
-            this.salesPercentage = 0.2;
+            this.salesPercentage = 0.15;
+            this.maxWorkDays = 22;
         }
 
         this.foodAllowance = 4.79;
@@ -51,7 +54,7 @@ public class Values {
     public double getSalesPercentage() {
         return this.salesPercentage;
     }
-    
+
     public void setWorkDayValue(double workdayValue) {
         this.workdayValue = workdayValue;
     }
@@ -64,16 +67,27 @@ public class Values {
         this.salesPercentage = salesPercentage;
     }
 
+    public double getMaxWorkDays() {
+        return maxWorkDays;
+    }
+
+    public void setMaxWorkDays(double maxWorkDays) {
+        this.maxWorkDays = maxWorkDays;
+    }
+
     /*
     Validação de dados
      */
-    private boolean validateValues(double workdayValue, double kilometerValue, double salesPercentage) {
+    private boolean validateValues(double workdayValue, double kilometerValue, double salesPercentage, int maxWorkedDays) {
         if (workdayValue <= 0) {
             return false;
         }
         if (kilometerValue <= 0) {
             return false;
         }
-        return salesPercentage > 0;
+        if  (salesPercentage <= 0) {
+            return false;
+        }
+        return maxWorkedDays > 0;
     }
 }

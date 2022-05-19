@@ -13,8 +13,8 @@ public class Salesman extends Employee {
 
     private int sales;
 
-    public Salesman(String name, int code, Date entryDate) {
-        super(name, code, entryDate, "Comercial");
+    public Salesman(String name, int code, Date entryDate, Values values) {
+        super(name, code, entryDate, "Comercial", values);
         this.sales = 0;
     }
 
@@ -29,5 +29,23 @@ public class Salesman extends Employee {
     @Override
     public String toString() {
         return super.toString() + "Vendas Realizadas: " + sales + "\n";
+    }
+    
+    @Override
+    public double calculateSalary() {
+        double total = calculateBaseSalary();
+        
+        total += sales * getValues().getSalesPercentage();
+        
+        return total;
+    }
+    
+    @Override
+    public double calculateSalary(int month) {
+        double total = calculateBaseSalary(month);
+        
+        total += sales * getValues().getSalesPercentage();
+        
+        return total;
     }
 }

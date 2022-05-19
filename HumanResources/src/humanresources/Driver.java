@@ -13,8 +13,8 @@ public class Driver extends Employee {
 
     private double kilometers;
 
-    public Driver(String name, int code, Date entryDate) {
-        super(name, code, entryDate, "Motorista");
+    public Driver(String name, int code, Date entryDate, Values values) {
+        super(name, code, entryDate, "Motorista", values);
         this.kilometers = 0;
     }
 
@@ -29,5 +29,23 @@ public class Driver extends Employee {
     @Override
     public String toString() {
         return super.toString() + "Quilómetros Percorridos: " + kilometers + "\n";
+    }
+
+    @Override
+    public double calculateSalary() {
+        double total = calculateBaseSalary();
+        
+        total += getKilometers() * getValues().getKilometerValue();
+        
+        return total;
+    }
+    
+    @Override
+    public double calculateSalary(int month) {
+        double total = calculateBaseSalary(month);
+        
+        total += getKilometers() * getValues().getKilometerValue();
+        
+        return total;
     }
 }

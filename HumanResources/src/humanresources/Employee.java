@@ -13,24 +13,28 @@ import java.time.Period;
  * @author Rodrigo Santos
  * @lastmod 2022-05-06
  */
-public class Employee {
+public abstract class Employee {
 
     private String name;
     private int code;
     private Date entryDate;
     private int[] workedDays;
     private String category;
+    private Values values;
 
-    public Employee(String name, int code, Date entryDate, String category) {
-        if (validateEmployeeData(name, code, entryDate, category)) {
+    public Employee(String name, int code, Date entryDate, String category, Values values) {
+        if (validateEmployeeData(name, code, entryDate, category, values)) {
             this.name = name;
             this.code = code;
             this.entryDate = entryDate;
             this.category = category;
+            this.values = values;
         } else {
             this.name = "UNKNOWN";
             this.code = 5000;
-            this.category = "Normal";
+            this.entryDate = new Date(1, 1, 2000);
+            this.values = new Values(68.18, 3.25, 0.2, 22);
+            this.category = "UNKNOWN";
         }
 
         this.workedDays = new int[12];
@@ -58,7 +62,9 @@ public class Employee {
     }
 
     public void setWorkedDays(int month, int days) {
-        workedDays[month] = days;
+        if (days > 0 && days < this.values.getMaxWorkDays()) {
+            workedDays[month] = days;
+        }
     }
 
     /**
@@ -82,7 +88,7 @@ public class Employee {
     /*
       Validação de dados
      */
-    private boolean validateEmployeeData(String name, int code, Date entryDate, String category) {
+    private boolean validateEmployeeData(String name, int code, Date entryDate, String category, Values values) {
         if (name.isBlank()) {
             return false;
         }
@@ -92,8 +98,13 @@ public class Employee {
         if (entryDate == null) {
             return false;
         }
-
-        return validateCategory(category);
+        if (!validateCategory(category)) {
+            return false;
+        }
+        if (values == null) {
+            return false;
+        }
+        return true;
     }
 
     private boolean validateCategory(String category) {
@@ -111,5 +122,58 @@ public class Employee {
         }
 
         return false;
+    }
+
+    public double calculateBaseSalary() {
+        double total = 0.0;
+        total += getWorkedDays() * getValues().getWorkdayValue();
+        total += getWorkedDays() * getValues().getFoodAllowance();
+        total += seniority() * getValues().getSeniorityAward();
+
+        return total;
+    }
+    
+    public double calculateBaseSalary(int month) {
+        double total = 0.0;
+
+        total += workedDays[month] * getValues().getWorkdayValue();
+        total += workedDays[month] * getValues().getFoodAllowance();
+        total += seniority() * getValues().getSeniorityAward();
+
+        return total;
+    }
+    
+    public double calculateMultipleSalaries(int startingMonth, int finalMonth){
+        double total = 0.0;
+        
+        for(int month = startingMonth; month <= finalMonth; month++){
+            total += calculateSalary(month);
+            
+            if(month == 5 || month == 10){
+                total += calculateSubsidy();
+            }
+        }
+        
+        return total;
+    }
+
+    public double calculateSubsidy() {
+        double total = 0.0;
+
+        total += getValues().getMaxWorkDays() * getValues().getWorkdayValue();
+        total += getValues().getMaxWorkDays() * getValues().getFoodAllowance();
+        total += seniority() * getValues().getSeniorityAward();
+
+        return total;
+    }
+
+    
+    
+    public abstract double calculateSalary();
+    
+    public abstract double calculateSalary(int month);
+
+    public Values getValues() {
+        return this.values;
     }
 }

@@ -17,9 +17,11 @@ public class Main {
         //TESTS
         Company company = new Company("XPTO");
         company.addEmployee();
-        company.addEmployee();
+        //company.addEmployee();
+        company.increaseWorkedDays();
         company.employeeRecordsByCategory();
-        System.out.println(company);
-    }
 
+        System.out.println(company);
+        company.showCosts();
+    }
 }
