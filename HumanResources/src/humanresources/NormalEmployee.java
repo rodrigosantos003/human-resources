@@ -21,7 +21,7 @@ public class NormalEmployee extends Employee {
     }
     
     @Override
-    public double calculateSalary(int month) {
-        return calculateBaseSalary(month);
+    public double calculateMaxSalary() {
+        return calculateMaxBaseSalary();
     }
 }

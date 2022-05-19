@@ -32,8 +32,8 @@ public class Manager extends Employee {
     }
     
     @Override
-    public double calculateSalary(int month) {
-        double total = calculateBaseSalary(month);
+    public double calculateMaxSalary() {
+        double total = calculateMaxBaseSalary();
         
         total += total * bonus;
         

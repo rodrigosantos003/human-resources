@@ -133,11 +133,11 @@ public abstract class Employee {
         return total;
     }
     
-    public double calculateBaseSalary(int month) {
+    public double calculateMaxBaseSalary() {
         double total = 0.0;
 
-        total += workedDays[month] * getValues().getWorkdayValue();
-        total += workedDays[month] * getValues().getFoodAllowance();
+        total += getValues().getMaxWorkDays() * getValues().getWorkdayValue();
+        total += getValues().getMaxWorkDays() * getValues().getFoodAllowance();
         total += seniority() * getValues().getSeniorityAward();
 
         return total;
@@ -147,7 +147,7 @@ public abstract class Employee {
         double total = 0.0;
         
         for(int month = startingMonth; month <= finalMonth; month++){
-            total += calculateSalary(month);
+            total += calculateMaxSalary();
             
             if(month == 5 || month == 10){
                 total += calculateSubsidy();
@@ -165,13 +165,11 @@ public abstract class Employee {
         total += seniority() * getValues().getSeniorityAward();
 
         return total;
-    }
-
-    
+    }    
     
     public abstract double calculateSalary();
     
-    public abstract double calculateSalary(int month);
+    public abstract double calculateMaxSalary();
 
     public Values getValues() {
         return this.values;
