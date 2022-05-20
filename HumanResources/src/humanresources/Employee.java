@@ -5,13 +5,12 @@
 package humanresources;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.Period;
 
 /**
+ * Estrutura com capacidade de armazenar o estado de uma entidade Empregado
  *
- * @author Rodrigo Santos
- * @lastmod 2022-05-06
+ * @author Rodrigo Santos & João Fernnandes
  */
 public abstract class Employee {
 
@@ -19,27 +18,36 @@ public abstract class Employee {
     private int code;
     private Date entryDate;
     private int[] workedDays;
-    private String category;
+    private EmployeeCategory category;
     private Values values;
 
-    public Employee(String name, int code, Date entryDate, String category, Values values) {
-        if (validateEmployeeData(name, code, entryDate, category, values)) {
+    /**
+     * Construtor da classe Employee
+     *
+     * @param name Nome do empregado
+     * @param code Código do empregado
+     * @param entryDate Data de entrada na empresa
+     * @param category Categoria do empregado
+     * @param values Valores fixados pela empresa
+     */
+    public Employee(String name, int code, Date entryDate, EmployeeCategory category, Values values) {
+        if (validateEmployeeData(name, code, entryDate, values)) {
             this.name = name;
             this.code = code;
             this.entryDate = entryDate;
-            this.category = category;
             this.values = values;
         } else {
             this.name = "UNKNOWN";
             this.code = 5000;
             this.entryDate = new Date(1, 1, 2000);
             this.values = new Values(68.18, 3.25, 0.2, 22);
-            this.category = "UNKNOWN";
         }
 
+        this.category = category;
         this.workedDays = new int[12];
     }
 
+    /* Getters */
     public String getName() {
         return name;
     }
@@ -57,10 +65,15 @@ public abstract class Employee {
         return workedDays[month];
     }
 
-    public String getCategory() {
+    public EmployeeCategory getCategory() {
         return category;
     }
 
+    public Values getValues() {
+        return this.values;
+    }
+
+    /* Setters */
     public void setWorkedDays(int month, int days) {
         if (days > 0 && days < this.values.getMaxWorkDays()) {
             workedDays[month] = days;
@@ -77,6 +90,11 @@ public abstract class Employee {
         return Period.between(localEntryDate, LocalDate.now()).getYears();
     }
 
+    /**
+     * Retorna a informação de um empregado em formato de cadeia de caracteres
+     *
+     * @return Informação de um empregado
+     */
     @Override
     public String toString() {
         return "Código: " + code + "\n"
@@ -85,10 +103,78 @@ public abstract class Employee {
                 + "Data Entrada: " + entryDate.toString() + "\n";
     }
 
-    /*
-      Validação de dados
+    /**
+     * Calcula o salário base de um empregado
+     *
+     * @return Valor do salário base
      */
-    private boolean validateEmployeeData(String name, int code, Date entryDate, String category, Values values) {
+    public double calculateBaseSalary() {
+        double total = 0.0;
+        total += getWorkedDays() * getValues().getWorkdayValue();
+        total += getWorkedDays() * getValues().getFoodAllowance();
+        total += seniority() * getValues().getSeniorityAward();
+
+        return total;
+    }
+
+    /**
+     * Calcula o salário base máximo, i.e. com todos os dias trabalhados, de um
+     * empregado
+     *
+     * @return Valor do salário base máximo
+     */
+    public double calculateMaxBaseSalary() {
+        double total = 0.0;
+
+        total += getValues().getMaxWorkDays() * getValues().getWorkdayValue();
+        total += getValues().getMaxWorkDays() * getValues().getFoodAllowance();
+        total += seniority() * getValues().getSeniorityAward();
+
+        return total;
+    }
+
+    /**
+     * Calcula o salário de um empregado, num dado intervalo de tempo
+     *
+     * @param startingMonth Mês de início do cálculo
+     * @param finalMonth Mês de fim do cálculo
+     * @return Valor final do cálculo
+     */
+    public double calculateMultipleSalaries(int startingMonth, int finalMonth) {
+        double total = 0.0;
+
+        for (int month = startingMonth; month <= finalMonth; month++) {
+            total += calculateMaxSalary();
+
+            if (month == 5 || month == 10) {
+                total += calculateSubsidy();
+            }
+        }
+
+        return total;
+    }
+
+    /**
+     * Calcula um subsídio a acrescentar ao salário
+     *
+     * @return Valor do subsídio
+     */
+    public double calculateSubsidy() {
+        double total = 0.0;
+
+        total += getValues().getMaxWorkDays() * getValues().getWorkdayValue();
+        total += getValues().getMaxWorkDays() * getValues().getFoodAllowance();
+        total += seniority() * getValues().getSeniorityAward();
+
+        return total;
+    }
+
+    public abstract double calculateSalary();
+
+    public abstract double calculateMaxSalary();
+
+    /* Validação de dados */
+    private boolean validateEmployeeData(String name, int code, Date entryDate, Values values) {
         if (name.isBlank()) {
             return false;
         }
@@ -98,15 +184,13 @@ public abstract class Employee {
         if (entryDate == null) {
             return false;
         }
-        if (!validateCategory(category)) {
-            return false;
-        }
         if (values == null) {
             return false;
         }
         return true;
     }
 
+    /*
     private boolean validateCategory(String category) {
         switch (category.toUpperCase()) {
             case "GESTOR":
@@ -123,55 +207,5 @@ public abstract class Employee {
 
         return false;
     }
-
-    public double calculateBaseSalary() {
-        double total = 0.0;
-        total += getWorkedDays() * getValues().getWorkdayValue();
-        total += getWorkedDays() * getValues().getFoodAllowance();
-        total += seniority() * getValues().getSeniorityAward();
-
-        return total;
-    }
-    
-    public double calculateMaxBaseSalary() {
-        double total = 0.0;
-
-        total += getValues().getMaxWorkDays() * getValues().getWorkdayValue();
-        total += getValues().getMaxWorkDays() * getValues().getFoodAllowance();
-        total += seniority() * getValues().getSeniorityAward();
-
-        return total;
-    }
-    
-    public double calculateMultipleSalaries(int startingMonth, int finalMonth){
-        double total = 0.0;
-        
-        for(int month = startingMonth; month <= finalMonth; month++){
-            total += calculateMaxSalary();
-            
-            if(month == 5 || month == 10){
-                total += calculateSubsidy();
-            }
-        }
-        
-        return total;
-    }
-
-    public double calculateSubsidy() {
-        double total = 0.0;
-
-        total += getValues().getMaxWorkDays() * getValues().getWorkdayValue();
-        total += getValues().getMaxWorkDays() * getValues().getFoodAllowance();
-        total += seniority() * getValues().getSeniorityAward();
-
-        return total;
-    }    
-    
-    public abstract double calculateSalary();
-    
-    public abstract double calculateMaxSalary();
-
-    public Values getValues() {
-        return this.values;
-    }
+*/
 }

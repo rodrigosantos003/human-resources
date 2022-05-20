@@ -5,9 +5,10 @@
 package humanresources;
 
 /**
+ * Estrutura com capacidade de armazenar o estado de uma entidade Valores
+ * Fixados
  *
- * @author Rodrigo Santos
- * @lastmod 2022-05-06
+ * @author Rodrigo Santos & João Fernnandes
  */
 public class Values {
 
@@ -18,6 +19,14 @@ public class Values {
     private double salesPercentage;
     private double maxWorkDays;
 
+    /**
+     * Construtor da classe Values
+     *
+     * @param workdayValue Valor por dia de trabalho
+     * @param kilometerValue Valor por quilómetro
+     * @param salesPercentage Perecentagem de vedas realizadas
+     * @param maxWorkDays Máximo de dias trabalhados
+     */
     public Values(double workdayValue, double kilometerValue, double salesPercentage, int maxWorkDays) {
         if (validateValues(workdayValue, kilometerValue, salesPercentage, maxWorkDays)) {
             this.workdayValue = workdayValue;
@@ -85,7 +94,7 @@ public class Values {
         if (kilometerValue <= 0) {
             return false;
         }
-        if  (salesPercentage <= 0) {
+        if (salesPercentage <= 0) {
             return false;
         }
         return maxWorkedDays > 0;

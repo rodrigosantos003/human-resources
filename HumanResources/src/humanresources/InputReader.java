@@ -7,14 +7,16 @@ package humanresources;
 import java.util.Scanner;
 
 /**
- *
- * @authors Rodrigo Santos & João Fernandes
- * @lastmod 2022-04-11
+ * Estrutura com capacidade de armazenar o estado de uma entidade Leitor de Input
+ * @author Rodrigo Santos & João Fernnandes
  */
 public class InputReader {
 
     private Scanner scanner;
 
+    /**
+     * Construtor da classe InputReader
+     */
     public InputReader() {
         scanner = new Scanner(System.in);
     }

@@ -7,9 +7,8 @@ package humanresources;
 import java.time.LocalDate;
 
 /**
- *
- * @authors Rodrigo Santos & João Fernandes
- * @lastmod 2022-04-07
+ * Estrutura com capacidade de armazenar o estado de uma entidade Data
+ * @author Rodrigo Santos & João Fernnandes
  */
 public class Date {
 
@@ -17,6 +16,12 @@ public class Date {
     private int month;
     private int year;
 
+    /**
+     * Construtor da classe Date
+     * @param day Dia
+     * @param month Mês
+     * @param year Ano
+     */ 
     public Date(int day, int month, int year) {
 
         if (validateDate(day, month, year)) {

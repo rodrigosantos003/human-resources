@@ -6,7 +6,7 @@ package humanresources;
 
 /**
  *
- * @authors Rodrigo Santos & João Fernandes
+ * @author Rodrigo Santos & João Fernandes
  */
 public class Main {
 
@@ -17,7 +17,7 @@ public class Main {
         //TESTS
         Company company = new Company("XPTO");
         company.addEmployee();
-        //company.addEmployee();
+        company.addEmployee();
         company.increaseWorkedDays();
         company.employeeRecordsByCategory();
 

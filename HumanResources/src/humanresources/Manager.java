@@ -5,16 +5,23 @@
 package humanresources;
 
 /**
- *
- * @author Rodrigo Santos
- * @lastmod 2022-05-06
+ * Estrutura com capacidade de armazenar o estado de uma entidade Gestor
+ * @author Rodrigo Santos & João Fernnandes
  */
 public class Manager extends Employee {
 
     private double bonus;
 
+    /**
+     * Construtor da classe Manager
+     *
+     * @param name Nome do empregado
+     * @param code Código do empregado
+     * @param entryDate Data de entrada na empresa
+     * @param values Valores fixados pela empresa
+     */
     public Manager(String name, int code, Date entryDate, Values values) {
-        super(name, code, entryDate, "Gestor", values);
+        super(name, code, entryDate,EmployeeCategory.MANAGER, values);
         this.bonus = 0.15;
     }
 

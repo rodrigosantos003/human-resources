@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 
 /**
- *
- * @authors Rodrigo Santos & João Fernnandes
- * @lastmod 2022-05-06
+ * Estrutura com capacidade de armazenar o estado de uma entidade Empresa
+ * @author Rodrigo Santos & João Fernnandes
  */
 public class Company {
 
@@ -18,6 +17,10 @@ public class Company {
     private ArrayList<Employee> employees;
     private Values values;
 
+    /**
+     * Construtor da classe Company
+     * @param name Nome da empresa
+     */
     public Company(String name) {
         this.name = name;
         this.employees = new ArrayList<>();
@@ -81,6 +84,11 @@ public class Company {
 
         //atribuição do código
         code = getTotalEmployees() + 1;
+        
+        //incrementar o código enquanto existir um empregado com empregado com o mesmo
+        while(getIndexOfEmployee(code) != -1){
+            code++;
+        }
 
         //atribuição da data de entrada
         entryDate = new Date(localDate.getDayOfMonth(), localDate.getMonthValue(), localDate.getYear());
@@ -102,8 +110,13 @@ public class Company {
 
         employees.add(newEmployee);
     }
-    
-    public void addMultipleEmployees(ArrayList<Employee> employees){
+
+    /**
+     * Adicona todos os empregados de uma lista
+     *
+     * @param employees Lista de empregados a adicionar
+     */
+    public void addMultipleEmployees(ArrayList<Employee> employees) {
         this.employees.addAll(employees);
     }
 
@@ -162,9 +175,9 @@ public class Company {
      *
      * @param category Categoria de empregados
      */
-    private void employeeRecords(String category) {
+    private void employeeRecords(EmployeeCategory category) {
         for (Employee employee : employees) {
-            if (employee.getCategory().toUpperCase().equals(category)) {
+            if (employee.getCategory() == category) {
                 System.out.println(employee);
             }
         }
@@ -175,19 +188,19 @@ public class Company {
      */
     public void employeeRecordsByCategory() {
         System.out.println("GESTORES:");
-        employeeRecords("GESTOR");
+        employeeRecords(EmployeeCategory.MANAGER);
         System.out.println("");
 
         System.out.println("MOTORISTAS:");
-        employeeRecords("MOTORISTA");
+        employeeRecords(EmployeeCategory.DRIVER);
         System.out.println("");
 
         System.out.println("COMERCIAIS");
-        employeeRecords("COMERCIAL");
+        employeeRecords(EmployeeCategory.SALESMAN);
         System.out.println("");
-        
+
         System.out.println("NORMAIS");
-        employeeRecords("NORMAL");
+        employeeRecords(EmployeeCategory.NORMAL);
         System.out.println("");
     }
 
@@ -205,61 +218,68 @@ public class Company {
         return total;
     }
 
-    public void showCosts(){
-        double cost = 0.0;
-        System.out.println("*** CUSTOS TRIMESTRAIS ***");
-        
-        System.out.print("Primeiro trimestre: ");
-        cost = calculateCosts(0,2);
-        System.out.println(" " + cost);
-        
-        System.out.print("Segundo trimestre: ");
-        cost = calculateCosts(3,5);
-        System.out.println(" " + cost);
-        
-        System.out.print("Terceiro trimestre: ");
-        cost = calculateCosts(6,8);
-        System.out.println(" " + cost);
-        
-        System.out.print("Quarto trimestre: ");
-        cost = calculateCosts(9,11);
-        System.out.println(" " + cost);
-        
-        
-        System.out.println("\n\n*** CUSTOS SEMESTRAIS ***");
-        
-        System.out.print("Primeiro semestre: ");
-        cost = calculateCosts(0,5);
-        System.out.println(" " + cost);
-        
-        System.out.print("Segundo semestre: ");
-        cost = calculateCosts(6,11);
-        System.out.println(" " + cost);
-        
-        
-        System.out.print("\n\n*** CUSTO ANUAL:");
-        cost = calculateCosts(0,11);
-        System.out.println(" " + cost);
-    }
-    
-    
-    private double calculateCosts(int startingMonth, int finalMonth){
+    /**
+     * Calcula os custos com salários num dado intervalo de tempo
+     * @param startingMonth Mês do início do cálculo
+     * @param finalMonth Mês do fim do cálculo
+     * @return Valor total de custos
+     */
+    private double calculateCosts(int startingMonth, int finalMonth) {
         double total = 0.0;
-        for(Employee employee : this.employees){
+        for (Employee employee : this.employees) {
             total += employee.calculateMultipleSalaries(startingMonth, finalMonth);
         }
         return total;
     }
+
+    /**
+     * Mostra os custos trimestrais, semestrais e anuais com salários
+     */
+    public void showCosts() {
+        double cost = 0.0;
+        System.out.println("*** CUSTOS TRIMESTRAIS ***");
+
+        System.out.print("Primeiro trimestre: ");
+        cost = calculateCosts(0, 2);
+        System.out.println(" " + cost);
+
+        System.out.print("Segundo trimestre: ");
+        cost = calculateCosts(3, 5);
+        System.out.println(" " + cost);
+
+        System.out.print("Terceiro trimestre: ");
+        cost = calculateCosts(6, 8);
+        System.out.println(" " + cost);
+
+        System.out.print("Quarto trimestre: ");
+        cost = calculateCosts(9, 11);
+        System.out.println(" " + cost);
+
+        System.out.println("\n\n*** CUSTOS SEMESTRAIS ***");
+
+        System.out.print("Primeiro semestre: ");
+        cost = calculateCosts(0, 5);
+        System.out.println(" " + cost);
+
+        System.out.print("Segundo semestre: ");
+        cost = calculateCosts(6, 11);
+        System.out.println(" " + cost);
+
+        System.out.print("\n\n*** CUSTO ANUAL:");
+        cost = calculateCosts(0, 11);
+        System.out.println(" " + cost);
+    }
+
     /**
      * Devolve o número total de empregados de uma dada categoria
      *
      * @param category Categoria de empregados
      * @return Número total de empregados da categoria
      */
-    public int totalEmployeesInCategory(String category) {
+    public int totalEmployeesInCategory(EmployeeCategory category) {
         int total = 0;
         for (Employee employee : employees) {
-            if (employee.getCategory().toUpperCase().equals(category)) {
+            if (employee.getCategory() == category) {
                 total++;
             }
         }
