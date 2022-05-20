@@ -21,6 +21,9 @@ public class Main {
         company.employeeRecordsByCategory();
 
         System.out.println(company);
-        company.showCosts();
+        
+        company.writeEmployeesToFile();
+        
+        //company.showCosts();
     }
 }

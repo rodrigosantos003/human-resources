@@ -4,6 +4,8 @@
  */
 package humanresources;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.time.LocalDate;
 
@@ -313,5 +315,26 @@ public class Company {
         output += "\nTotal de Empregados: " + getTotalEmployees();
 
         return output;
+    }
+
+    /**
+     * Escreve no ficheiro de empregados
+     */
+    public void writeEmployeesToFile() {
+        try {
+            FileWriter writer = new FileWriter("employees.txt");
+
+            for (Employee employee : employees) {
+                writer.write(employee.toString());
+                writer.write("\n");
+            }
+
+            writer.flush();
+            writer.close();
+
+            System.out.println("Escrita no ficheiro realizada com sucesso!");
+        } catch (IOException e) {
+            System.out.println("Ocorreu um erro: " + e.getMessage());
+        }
     }
 }
