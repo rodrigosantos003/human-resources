@@ -17,7 +17,6 @@ public class Main {
         //TESTS
         Company company = new Company("XPTO");
         company.addEmployee();
-        company.addEmployee();
         company.increaseWorkedDays();
         company.employeeRecordsByCategory();
 

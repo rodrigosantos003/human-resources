@@ -29,9 +29,7 @@ public class Date {
             this.month = month;
             this.year = year;
         } else {
-            this.day = 15;
-            this.month = 10;
-            this.year = 1582;
+            throw new IllegalArgumentException("Data inválida");
         }
     }
 

@@ -36,7 +36,11 @@ public class Salesman extends Employee {
 
     @Override
     public String toString() {
-        return super.toString() + "Vendas Realizadas: " + sales + "\n";
+        String output = super.toString();
+
+        output += "\nVendas Realizadas: " + sales;
+
+        return output;
     }
 
     @Override

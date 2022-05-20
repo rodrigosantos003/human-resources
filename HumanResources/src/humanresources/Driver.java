@@ -35,11 +35,6 @@ public class Driver extends Employee {
     }
 
     @Override
-    public String toString() {
-        return super.toString() + "Quilómetros Percorridos: " + kilometers + "\n";
-    }
-
-    @Override
     public double calculateSalary() {
         double total = calculateBaseSalary();
 
@@ -55,5 +50,14 @@ public class Driver extends Employee {
         total += getKilometers() * getValues().getKilometerValue();
 
         return total;
+    }
+
+    @Override
+    public String toString() {
+        String output = super.toString();
+
+        output += "\nQuilómetros Percorridos: " + kilometers;
+
+        return output;
     }
 }

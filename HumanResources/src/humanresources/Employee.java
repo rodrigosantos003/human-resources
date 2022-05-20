@@ -36,18 +36,27 @@ public abstract class Employee {
             this.code = code;
             this.entryDate = entryDate;
             this.values = values;
+            this.category = category;
+            this.workedDays = new int[12];
         } else {
-            this.name = "UNKNOWN";
-            this.code = 5000;
-            this.entryDate = new Date(1, 1, 2000);
-            this.values = new Values(68.18, 3.25, 0.2, 22);
+            throw new IllegalArgumentException("Dados inválidos");
         }
-
-        this.category = category;
-        this.workedDays = new int[12];
     }
 
-    /* Getters */
+    /* Validação de dados */
+    private boolean validateEmployeeData(String name, int code, Date entryDate, Values values) {
+        if (name.isBlank()) {
+            return false;
+        }
+        if (code <= 0) {
+            return false;
+        }
+        if (entryDate == null) {
+            return false;
+        }
+        return values != null;
+    }
+
     public String getName() {
         return name;
     }
@@ -73,7 +82,6 @@ public abstract class Employee {
         return this.values;
     }
 
-    /* Setters */
     public void setWorkedDays(int month, int days) {
         if (days > 0 && days < this.values.getMaxWorkDays()) {
             workedDays[month] = days;
@@ -88,19 +96,6 @@ public abstract class Employee {
     public int seniority() {
         LocalDate localEntryDate = LocalDate.of(entryDate.getYear(), entryDate.getMonth(), entryDate.getDay());
         return Period.between(localEntryDate, LocalDate.now()).getYears();
-    }
-
-    /**
-     * Retorna a informação de um empregado em formato de cadeia de caracteres
-     *
-     * @return Informação de um empregado
-     */
-    @Override
-    public String toString() {
-        return "Código: " + code + "\n"
-                + "Nome: " + name + "\n"
-                + "Categoria: " + category + "\n"
-                + "Data Entrada: " + entryDate.toString() + "\n";
     }
 
     /**
@@ -173,39 +168,20 @@ public abstract class Employee {
 
     public abstract double calculateMaxSalary();
 
-    /* Validação de dados */
-    private boolean validateEmployeeData(String name, int code, Date entryDate, Values values) {
-        if (name.isBlank()) {
-            return false;
-        }
-        if (code <= 0) {
-            return false;
-        }
-        if (entryDate == null) {
-            return false;
-        }
-        if (values == null) {
-            return false;
-        }
-        return true;
-    }
+    /**
+     * Retorna a informação de um empregado em formato de cadeia de caracteres
+     *
+     * @return Informação de um empregado
+     */
+    @Override
+    public String toString() {
+        String output = "";
 
-    /*
-    private boolean validateCategory(String category) {
-        switch (category.toUpperCase()) {
-            case "GESTOR":
-                return true;
-            case "MOTORISTA":
-                return true;
-            case "COMERCIAL":
-                return true;
-            case "NORMAL":
-                return true;
-            default:
-                break;
-        }
+        output += "Código: " + code;
+        output += "\nNome: " + name;
+        output += "\nCategoria: " + category;
+        output += "\nData Entrada" + entryDate;
 
-        return false;
+        return output;
     }
-*/
 }

@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 /**
  * Estrutura com capacidade de armazenar o estado de uma entidade Empresa
+ *
  * @author Rodrigo Santos & João Fernnandes
  */
 public class Company {
@@ -19,6 +20,7 @@ public class Company {
 
     /**
      * Construtor da classe Company
+     *
      * @param name Nome da empresa
      */
     public Company(String name) {
@@ -84,9 +86,9 @@ public class Company {
 
         //atribuição do código
         code = getTotalEmployees() + 1;
-        
+
         //incrementar o código enquanto existir um empregado com empregado com o mesmo
-        while(getIndexOfEmployee(code) != -1){
+        while (getIndexOfEmployee(code) != -1) {
             code++;
         }
 
@@ -118,6 +120,16 @@ public class Company {
      */
     public void addMultipleEmployees(ArrayList<Employee> employees) {
         this.employees.addAll(employees);
+    }
+
+    /**
+     * Incrementa o número de dias trabalhados dos empregados
+     */
+    public void increaseWorkedDays() {
+        int month = LocalDate.now().getMonthValue() - 1;
+        for (Employee employee : employees) {
+            employee.setWorkedDays(month, employee.getWorkedDays() + 1);
+        }
     }
 
     /**
@@ -205,6 +217,23 @@ public class Company {
     }
 
     /**
+     * Devolve o número total de empregados de uma dada categoria
+     *
+     * @param category Categoria de empregados
+     * @return Número total de empregados da categoria
+     */
+    public int totalEmployeesInCategory(EmployeeCategory category) {
+        int total = 0;
+        for (Employee employee : employees) {
+            if (employee.getCategory() == category) {
+                total++;
+            }
+        }
+
+        return total;
+    }
+
+    /**
      * Devolve o total de salários a pagar
      *
      * @return Valor total de salários
@@ -220,6 +249,7 @@ public class Company {
 
     /**
      * Calcula os custos com salários num dado intervalo de tempo
+     *
      * @param startingMonth Mês do início do cálculo
      * @param finalMonth Mês do fim do cálculo
      * @return Valor total de custos
@@ -271,35 +301,17 @@ public class Company {
     }
 
     /**
-     * Devolve o número total de empregados de uma dada categoria
+     * Retorna a informação da empresa em formato de cadeia de caracteres
      *
-     * @param category Categoria de empregados
-     * @return Número total de empregados da categoria
+     * @return Informação da empresa
      */
-    public int totalEmployeesInCategory(EmployeeCategory category) {
-        int total = 0;
-        for (Employee employee : employees) {
-            if (employee.getCategory() == category) {
-                total++;
-            }
-        }
-
-        return total;
-    }
-
-    /**
-     * Incrementa o número de dias trabalhados dos empregados
-     */
-    public void increaseWorkedDays() {
-        int month = LocalDate.now().getMonthValue() - 1;
-        for (Employee employee : employees) {
-            employee.setWorkedDays(month, employee.getWorkedDays() + 1);
-        }
-    }
-
     @Override
     public String toString() {
-        return "Empresa: " + getName() + "\n"
-                + "Total de empregados: " + getTotalEmployees() + "\n";
+        String output = "";
+
+        output += "Empresa: " + this.name;
+        output += "\nTotal de Empregados: " + getTotalEmployees();
+
+        return output;
     }
 }

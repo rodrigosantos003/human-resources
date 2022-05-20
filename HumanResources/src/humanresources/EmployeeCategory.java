@@ -5,24 +5,32 @@
 package humanresources;
 
 /**
+ * Estrutura com capacidade para armazenar uma entidade Categoria de Empregado
  *
- * @author Rodrigo Santos
+ * @author Rodrigo Santos & João Fernandes
  */
 public enum EmployeeCategory {
     MANAGER, DRIVER, SALESMAN, NORMAL;
-    
+
     @Override
-    public String toString(){
-        if(this == MANAGER){
-            return "Gestor";
-        } else if(this == DRIVER){
-            return "Motorista";
-        } else if(this == SALESMAN){
-            return "Comercial";
-        } else if(this == NORMAL){
-            return "Normal";
+    public String toString() {
+        if (null != this) {
+            switch (this) {
+                case MANAGER -> {
+                    return "Gestor";
+                }
+                case DRIVER -> {
+                    return "Motorista";
+                }
+                case SALESMAN -> {
+                    return "Comercial";
+                }
+                case NORMAL -> {
+                    return "Normal";
+                }
+            }
         }
-        
+
         return "";
     }
 }
