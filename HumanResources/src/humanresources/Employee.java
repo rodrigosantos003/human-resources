@@ -39,13 +39,13 @@ public abstract class Employee {
             this.category = category;
             this.workedDays = new int[12];
         } else {
-            throw new IllegalArgumentException("Dados inválidos");
+            throw new IllegalArgumentException("Dados do empregado inválidos");
         }
     }
 
     /* Validação de dados */
     private boolean validateEmployeeData(String name, int code, Date entryDate, Values values) {
-        if (name.isBlank()) {
+        if (name.isBlank() || name.matches(".*[0-9].*")){
             return false;
         }
         if (code <= 0) {
@@ -176,25 +176,11 @@ public abstract class Employee {
         for (int month = startingMonth; month <= finalMonth; month++) {
             total += calculateMaxSalary();
 
+            //subsídio férias/natal
             if (month == 5 || month == 10) {
-                total += calculateSubsidy();
+                total += calculateMaxSalary();
             }
         }
-
-        return total;
-    }
-
-    /**
-     * Calcula um subsídio a acrescentar ao salário
-     *
-     * @return Valor do subsídio
-     */
-    public double calculateSubsidy() {
-        double total = 0.0;
-
-        total += getValues().getMaxWorkDays() * getValues().getWorkdayValue();
-        total += getValues().getMaxWorkDays() * getValues().getFoodAllowance();
-        total += seniority() * getValues().getSeniorityAward();
 
         return total;
     }
@@ -224,7 +210,6 @@ public abstract class Employee {
         output += "\nNome: " + name;
         output += "\nCategoria: " + category;
         output += "\nData Entrada: " + entryDate;
-        output += "\nAntiguidade: " + seniority();
 
         return output;
     }

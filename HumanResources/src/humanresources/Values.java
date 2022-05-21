@@ -45,6 +45,22 @@ public class Values {
         this.seniorityAward = 0.5;
     }
 
+    /*
+    Validação de dados
+     */
+    private boolean validateValues(double workdayValue, double kilometerValue, double salesPercentage, int maxWorkedDays) {
+        if (workdayValue <= 0) {
+            return false;
+        }
+        if (kilometerValue <= 0) {
+            return false;
+        }
+        if (salesPercentage <= 0) {
+            return false;
+        }
+        return maxWorkedDays > 0;
+    }
+
     /**
      * Método seletor do atributo workDayValue
      *
@@ -105,7 +121,15 @@ public class Values {
      * @param workdayValue Novo valor a tribuir
      */
     public void setWorkDayValue(double workdayValue) {
-        this.workdayValue = workdayValue;
+        try {
+            if (workdayValue > 0) {
+                this.workdayValue = workdayValue;
+            } else {
+                throw new IllegalArgumentException("Valor tem de ser superior a zero");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Valor não alterado: " + e.getMessage());
+        }
     }
 
     /**
@@ -114,7 +138,15 @@ public class Values {
      * @param kilometerValue Novo valor a atribuir
      */
     public void setKilometerValue(double kilometerValue) {
-        this.kilometerValue = kilometerValue;
+        try {
+            if (kilometerValue > 0) {
+                this.kilometerValue = kilometerValue;
+            } else {
+                throw new IllegalArgumentException("Valor tem de ser superior a zero");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Valor não alterado: " + e.getMessage());
+        }
     }
 
     /**
@@ -123,7 +155,15 @@ public class Values {
      * @param salesPercentage Novo valor a atribuir
      */
     public void setSalesPercentage(double salesPercentage) {
-        this.salesPercentage = salesPercentage;
+        try {
+            if (salesPercentage > 0) {
+                this.salesPercentage = salesPercentage;
+            } else {
+                throw new IllegalArgumentException("Valor tem de ser superior a zero");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Valor não alterado: " + e.getMessage());
+        }
     }
 
     /**
@@ -132,22 +172,14 @@ public class Values {
      * @param maxWorkDays Novo valor a atribuir
      */
     public void setMaxWorkDays(double maxWorkDays) {
-        this.maxWorkDays = maxWorkDays;
-    }
-
-    /*
-    Validação de dados
-     */
-    private boolean validateValues(double workdayValue, double kilometerValue, double salesPercentage, int maxWorkedDays) {
-        if (workdayValue <= 0) {
-            return false;
+        try {
+            if (maxWorkDays > 0) {
+                this.maxWorkDays = maxWorkDays;
+            } else {
+                throw new IllegalArgumentException("Valor tem de ser superior a zero");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Valor não alterado: " + e.getMessage());
         }
-        if (kilometerValue <= 0) {
-            return false;
-        }
-        if (salesPercentage <= 0) {
-            return false;
-        }
-        return maxWorkedDays > 0;
     }
 }

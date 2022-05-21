@@ -25,6 +25,6 @@ public class Main {
 
         company.writeEmployeesToFile();
 
-        //company.showCosts();
+        company.showCosts();
     }
 }

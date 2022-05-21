@@ -27,9 +27,18 @@ public class Company {
      * @param name Nome da empresa
      */
     public Company(String name) {
-        this.name = name;
-        this.employees = new ArrayList<>();
-        this.values = new Values(68.18, 3.25, 0.2, 22);
+        if (validateCompanyName(name)) {
+            this.name = name;
+            this.employees = new ArrayList<>();
+            this.values = new Values(68.18, 3.25, 0.2, 22);
+        } else {
+            throw new IllegalArgumentException("Nome da empresa em branco");
+        }
+    }
+
+    /* Validação de dados*/
+    private boolean validateCompanyName(String name) {
+        return !name.isBlank();
     }
 
     /**
@@ -47,8 +56,14 @@ public class Company {
      * @param name Novo valor a tribuir
      */
     public void setName(String name) {
-        if (!name.isBlank()) {
-            this.name = name;
+        try {
+            if (!name.isBlank()) {
+                this.name = name;
+            } else {
+                throw new IllegalArgumentException("O nome introduzido está em branco");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Nome não alterado: " + e.getMessage());
         }
     }
 
@@ -60,13 +75,9 @@ public class Company {
      * @param salesPercentage valor da percentagem das vendas realizadas
      */
     public void changeCompanyValues(double workdayValue, double kilometerValue, double salesPercentage) {
-        if (workdayValue > 0 && kilometerValue > 0 && salesPercentage > 0) {
-            values.setWorkDayValue(workdayValue);
-            values.setKilometerValue(kilometerValue);
-            values.setSalesPercentage(salesPercentage);
-        } else {
-            System.out.println("ERRO: Dados inválidos!");
-        }
+        values.setWorkDayValue(workdayValue);
+        values.setKilometerValue(kilometerValue);
+        values.setSalesPercentage(salesPercentage);
     }
 
     /**
@@ -110,20 +121,38 @@ public class Company {
 
         switch (category.toUpperCase()) {
             case "GESTOR":
+                try {
                 newEmployee = new Manager(employeeName, code, entryDate, this.values);
-                break;
+                employees.add(newEmployee);
+            } catch (Exception e) {
+                System.out.println("Ocorreu um erro: " + e.getMessage());
+            }
+            break;
             case "MOTORISTA":
+                try {
                 newEmployee = new Driver(employeeName, code, entryDate, this.values);
-                break;
+                employees.add(newEmployee);
+            } catch (Exception e) {
+                System.out.println("Ocorreu um erro: " + e.getMessage());
+            }
+            break;
             case "COMERCIAL":
+                try {
                 newEmployee = new Salesman(employeeName, code, entryDate, this.values);
-                break;
+                employees.add(newEmployee);
+            } catch (Exception e) {
+                System.out.println("Ocorreu um erro: " + e.getMessage());
+            }
+            break;
             default:
+                try {
                 newEmployee = new NormalEmployee(employeeName, code, entryDate, this.values);
-                break;
+                employees.add(newEmployee);
+            } catch (Exception e) {
+                System.out.println("Ocorreu um erro: " + e.getMessage());
+            }
+            break;
         }
-
-        employees.add(newEmployee);
     }
 
     /**
@@ -132,7 +161,15 @@ public class Company {
      * @param employees Lista de empregados a adicionar
      */
     public void addMultipleEmployees(ArrayList<Employee> employees) {
-        this.employees.addAll(employees);
+        try {
+            if (employees != null) {
+                this.employees.addAll(employees);
+            } else {
+                throw new IllegalArgumentException("Lista inexistente");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Lista não carregada: " + e.getMessage());
+        }
     }
 
     /**
@@ -212,19 +249,19 @@ public class Company {
      * Obtém as fichas dos empregados, filtrados por categoria
      */
     public void employeeRecordsByCategory() {
-        System.out.println("GESTORES:");
+        System.out.println("GESTORES (" + totalEmployeesInCategory(EmployeeCategory.MANAGER) + "): ");
         employeeRecords(EmployeeCategory.MANAGER);
         System.out.println("");
 
-        System.out.println("MOTORISTAS:");
+        System.out.println("GESTORES (" + totalEmployeesInCategory(EmployeeCategory.DRIVER) + "): ");
         employeeRecords(EmployeeCategory.DRIVER);
         System.out.println("");
 
-        System.out.println("COMERCIAIS");
+        System.out.println("GESTORES (" + totalEmployeesInCategory(EmployeeCategory.SALESMAN) + "): ");
         employeeRecords(EmployeeCategory.SALESMAN);
         System.out.println("");
 
-        System.out.println("NORMAIS");
+        System.out.println("GESTORES (" + totalEmployeesInCategory(EmployeeCategory.NORMAL) + "): ");
         employeeRecords(EmployeeCategory.NORMAL);
         System.out.println("");
     }
@@ -280,7 +317,7 @@ public class Company {
      */
     public void showCosts() {
         double cost;
-        
+
         System.out.println("*** CUSTOS TRIMESTRAIS ***");
 
         System.out.print("Primeiro trimestre: ");
@@ -315,21 +352,6 @@ public class Company {
     }
 
     /**
-     * Retorna a informação da empresa em formato de cadeia de caracteres
-     *
-     * @return Informação da empresa
-     */
-    @Override
-    public String toString() {
-        String output = "";
-
-        output += "Empresa: " + this.name;
-        output += "\nTotal de Empregados: " + getTotalEmployees();
-
-        return output;
-    }
-
-    /**
      * Escreve no ficheiro de empregados
      */
     public void writeEmployeesToFile() {
@@ -348,5 +370,20 @@ public class Company {
         } catch (IOException e) {
             System.out.println("Ocorreu um erro: " + e.getMessage());
         }
+    }
+
+    /**
+     * Retorna a informação da empresa em formato de cadeia de caracteres
+     *
+     * @return Informação da empresa
+     */
+    @Override
+    public String toString() {
+        String output = "";
+
+        output += "Empresa: " + this.name;
+        output += "\nTotal de Empregados: " + getTotalEmployees();
+
+        return output;
     }
 }

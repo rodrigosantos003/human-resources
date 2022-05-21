@@ -42,7 +42,15 @@ public class Salesman extends Employee {
      * @param sales Novo valor a atribuir
      */
     public void setSales(int sales) {
-        this.sales = sales;
+        try {
+            if (sales >= 0) {
+                this.sales = sales;
+            } else {
+                throw new IllegalArgumentException("Vendas inválidass");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Vendas não alteradas: " + e.getMessage());
+        }
     }
 
     /**

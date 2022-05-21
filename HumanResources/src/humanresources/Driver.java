@@ -42,7 +42,15 @@ public class Driver extends Employee {
      * @param kilometers Novo valor a atribuir
      */
     public void setKilometers(double kilometers) {
-        this.kilometers = kilometers;
+        try{
+            if(kilometers >= 0){
+                this.kilometers = kilometers;
+            } else{
+                throw new IllegalArgumentException("Quilómetros inválidos");
+            }
+        } catch(IllegalArgumentException e){
+            System.out.println("Quilómetros não alterados: " + e.getMessage());
+        }
     }
 
     /**
