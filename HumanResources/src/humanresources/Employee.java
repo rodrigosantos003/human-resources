@@ -5,12 +5,12 @@
 package humanresources;
 
 import java.time.LocalDate;
-import java.time.Period;
 
 /**
  * Estrutura com capacidade de armazenar o estado de uma entidade Empregado
  *
- * @author Rodrigo Santos & João Fernnandes
+ * @author João Fernandes
+ * @author Rodrigo Santos
  */
 public abstract class Employee {
 
@@ -26,7 +26,7 @@ public abstract class Employee {
      *
      * @param name Nome do empregado
      * @param code Código do empregado
-     * @param entryDate Data de entrada na empresa
+     * @param entryDate Data de entrada do empregado na empresa
      * @param category Categoria do empregado
      * @param values Valores fixados pela empresa
      */
@@ -57,31 +57,67 @@ public abstract class Employee {
         return values != null;
     }
 
+    /**
+     * Método seletor do atributo name
+     *
+     * @return Valor do atributo name
+     */
     public String getName() {
-        return name;
+        return this.name;
     }
 
+    /**
+     * Método seletor do atributo code
+     *
+     * @return Valor do atributo code
+     */
     public int getCode() {
-        return code;
+        return this.code;
     }
 
+    /**
+     * Método seletor do atributo entryDate
+     *
+     * @return Valor do atributo entryDate
+     */
     public Date getEntryDate() {
-        return entryDate;
+        return this.entryDate;
     }
 
+    /**
+     * Método seletor do atributo workedDays
+     *
+     * @return Número de dias trabalhados no mês atual
+     */
     public int getWorkedDays() {
         int month = LocalDate.now().getMonthValue() - 1;
-        return workedDays[month];
+        return this.workedDays[month];
     }
 
+    /**
+     * Método seletor do atributo category
+     *
+     * @return Valor do atributo category
+     */
     public EmployeeCategory getCategory() {
-        return category;
+        return this.category;
     }
 
+    /**
+     * Método seletor do atributo values
+     *
+     * @return Valor do atributo values
+     */
     public Values getValues() {
         return this.values;
     }
 
+    /**
+     * Método modificador do atributo workedDays
+     *
+     * @param month Mês a alterar
+     * @param days Número de dias trabalhados
+     */
     public void setWorkedDays(int month, int days) {
         if (days > 0 && days < this.values.getMaxWorkDays()) {
             workedDays[month] = days;
@@ -94,8 +130,7 @@ public abstract class Employee {
      * @return Antiguidade na empresa
      */
     public int seniority() {
-        LocalDate localEntryDate = LocalDate.of(entryDate.getYear(), entryDate.getMonth(), entryDate.getDay());
-        return Period.between(localEntryDate, LocalDate.now()).getYears();
+        return entryDate.getYearsTillToday();
     }
 
     /**
@@ -164,8 +199,16 @@ public abstract class Employee {
         return total;
     }
 
+    /**
+     * Método abstrato para cálculo do salário de um empregado
+     * @return Valor total do salário
+     */
     public abstract double calculateSalary();
 
+    /**
+     * Método abstrato para cálculo do salário máximo de um empregado
+     * @return Valor total do salário
+     */
     public abstract double calculateMaxSalary();
 
     /**
@@ -180,7 +223,8 @@ public abstract class Employee {
         output += "Código: " + code;
         output += "\nNome: " + name;
         output += "\nCategoria: " + category;
-        output += "\nData Entrada" + entryDate;
+        output += "\nData Entrada: " + entryDate;
+        output += "\nAntiguidade: " + seniority();
 
         return output;
     }

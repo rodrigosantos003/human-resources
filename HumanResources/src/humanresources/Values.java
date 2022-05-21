@@ -8,7 +8,8 @@ package humanresources;
  * Estrutura com capacidade de armazenar o estado de uma entidade Valores
  * Fixados
  *
- * @author Rodrigo Santos & João Fernnandes
+ * @author João Fernandes
+ * @author Rodrigo Santos
  */
 public class Values {
 
@@ -22,10 +23,10 @@ public class Values {
     /**
      * Construtor da classe Values
      *
-     * @param workdayValue Valor por dia de trabalho
+     * @param workdayValue Valor por dias de trabalho
      * @param kilometerValue Valor por quilómetro
-     * @param salesPercentage Perecentagem de vedas realizadas
-     * @param maxWorkDays Máximo de dias trabalhados
+     * @param salesPercentage Percentagem de vendas
+     * @param maxWorkDays Máximo de dias trabalhados por um empregado
      */
     public Values(double workdayValue, double kilometerValue, double salesPercentage, int maxWorkDays) {
         if (validateValues(workdayValue, kilometerValue, salesPercentage, maxWorkDays)) {
@@ -44,42 +45,92 @@ public class Values {
         this.seniorityAward = 0.5;
     }
 
+    /**
+     * Método seletor do atributo workDayValue
+     *
+     * @return Valor do atributo workDayValue
+     */
     public double getWorkdayValue() {
         return this.workdayValue;
     }
 
+    /**
+     * Método seletor do atributo foodAllowance
+     *
+     * @return Valor do atributo foodAllowance
+     */
     public double getFoodAllowance() {
         return this.foodAllowance;
     }
 
+    /**
+     * Método seletor do atributo seniorityAward
+     *
+     * @return Valor do atributo seniorityAward
+     */
     public double getSeniorityAward() {
         return this.seniorityAward;
     }
 
+    /**
+     * Método seletor do atributo kilometerValue
+     *
+     * @return Valor do atributo kilometerValue
+     */
     public double getKilometerValue() {
         return this.kilometerValue;
     }
 
+    /**
+     * Método seletor do atributo salesPercentage
+     *
+     * @return Valor do atributo salesPercentage
+     */
     public double getSalesPercentage() {
         return this.salesPercentage;
     }
 
-    public void setWorkDayValue(double workdayValue) {
-        this.workdayValue = workdayValue;
-    }
-
-    public void setKilometerValue(double kilometerValue) {
-        this.kilometerValue = kilometerValue;
-    }
-
-    public void setSalesPercentage(double salesPercentage) {
-        this.salesPercentage = salesPercentage;
-    }
-
+    /**
+     * Método seletor do atributo maxWorkDays
+     *
+     * @return Valor do atributo maxWrorkDay
+     */
     public double getMaxWorkDays() {
         return maxWorkDays;
     }
 
+    /**
+     * Método modificador do atributo workdayValue
+     *
+     * @param workdayValue Novo valor a tribuir
+     */
+    public void setWorkDayValue(double workdayValue) {
+        this.workdayValue = workdayValue;
+    }
+
+    /**
+     * Método modificador do atributo kilometerValue
+     *
+     * @param kilometerValue Novo valor a atribuir
+     */
+    public void setKilometerValue(double kilometerValue) {
+        this.kilometerValue = kilometerValue;
+    }
+
+    /**
+     * Método modificador do atributo salesPercentage
+     *
+     * @param salesPercentage Novo valor a atribuir
+     */
+    public void setSalesPercentage(double salesPercentage) {
+        this.salesPercentage = salesPercentage;
+    }
+
+    /**
+     * Método modificador do atributo maxWorkDays
+     *
+     * @param maxWorkDays Novo valor a atribuir
+     */
     public void setMaxWorkDays(double maxWorkDays) {
         this.maxWorkDays = maxWorkDays;
     }

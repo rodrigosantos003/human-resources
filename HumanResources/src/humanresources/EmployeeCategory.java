@@ -7,9 +7,11 @@ package humanresources;
 /**
  * Estrutura com capacidade para armazenar uma entidade Categoria de Empregado
  *
- * @author Rodrigo Santos & João Fernandes
+ * @author João Fernandes
+ * @author Rodrigo Santos
  */
 public enum EmployeeCategory {
+    //categorias possíveis
     MANAGER, DRIVER, SALESMAN, NORMAL;
 
     @Override

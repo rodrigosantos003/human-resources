@@ -6,7 +6,8 @@ package humanresources;
 
 /**
  *
- * @author Rodrigo Santos & João Fernandes
+ * @author João Fernandes
+ * @author Rodrigo Santos
  */
 public class Main {
 
@@ -21,9 +22,9 @@ public class Main {
         company.employeeRecordsByCategory();
 
         System.out.println(company);
-        
+
         company.writeEmployeesToFile();
-        
+
         //company.showCosts();
     }
 }

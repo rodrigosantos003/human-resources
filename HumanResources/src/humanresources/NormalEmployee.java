@@ -8,7 +8,8 @@ package humanresources;
  * Estrutura com capacidade de armazenar o estado de uma entidade Empregado
  * Normal
  *
- * @author Rodrigo Santos & João Fernnandes
+ * @author João Fernandes
+ * @author Rodrigo Santos
  */
 public class NormalEmployee extends Employee {
 
@@ -24,11 +25,21 @@ public class NormalEmployee extends Employee {
         super(name, code, entryDate, EmployeeCategory.NORMAL, values);
     }
 
+    /**
+     * Calcula o salário de um empregado normal
+     *
+     * @return Valor total do salário
+     */
     @Override
     public double calculateSalary() {
         return calculateBaseSalary();
     }
 
+    /**
+     * Calcula o salário máximo de um empregado normal
+     *
+     * @return Valor total do salário
+     */
     @Override
     public double calculateMaxSalary() {
         return calculateMaxBaseSalary();

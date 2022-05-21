@@ -12,7 +12,8 @@ import java.time.LocalDate;
 /**
  * Estrutura com capacidade de armazenar o estado de uma entidade Empresa
  *
- * @author Rodrigo Santos & João Fernnandes
+ * @author João Fernandes
+ * @author Rodrigo Santos
  */
 public class Company {
 
@@ -31,10 +32,20 @@ public class Company {
         this.values = new Values(68.18, 3.25, 0.2, 22);
     }
 
+    /**
+     * Método seletor do atributo name
+     *
+     * @return Valor do atributo name
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Método modificador do atributo name
+     *
+     * @param name Novo valor a tribuir
+     */
     public void setName(String name) {
         if (!name.isBlank()) {
             this.name = name;
@@ -75,13 +86,13 @@ public class Company {
         LocalDate localDate = LocalDate.now();
 
         int code;
-        String name;
+        String employeeName;
         String category;
         Date entryDate;
         Employee newEmployee;
 
         //leitura do nome
-        name = input.getText("Nome");
+        employeeName = input.getText("Nome");
 
         //leitura da categoria
         category = input.getText("Categoria");
@@ -99,16 +110,16 @@ public class Company {
 
         switch (category.toUpperCase()) {
             case "GESTOR":
-                newEmployee = new Manager(name, code, entryDate, this.values);
+                newEmployee = new Manager(employeeName, code, entryDate, this.values);
                 break;
             case "MOTORISTA":
-                newEmployee = new Driver(name, code, entryDate, this.values);
+                newEmployee = new Driver(employeeName, code, entryDate, this.values);
                 break;
             case "COMERCIAL":
-                newEmployee = new Salesman(name, code, entryDate, this.values);
+                newEmployee = new Salesman(employeeName, code, entryDate, this.values);
                 break;
             default:
-                newEmployee = new NormalEmployee(name, code, entryDate, this.values);
+                newEmployee = new NormalEmployee(employeeName, code, entryDate, this.values);
                 break;
         }
 
@@ -268,7 +279,8 @@ public class Company {
      * Mostra os custos trimestrais, semestrais e anuais com salários
      */
     public void showCosts() {
-        double cost = 0.0;
+        double cost;
+        
         System.out.println("*** CUSTOS TRIMESTRAIS ***");
 
         System.out.print("Primeiro trimestre: ");

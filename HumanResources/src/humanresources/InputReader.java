@@ -7,8 +7,11 @@ package humanresources;
 import java.util.Scanner;
 
 /**
- * Estrutura com capacidade de armazenar o estado de uma entidade Leitor de Input
- * @author Rodrigo Santos & João Fernnandes
+ * Estrutura com capacidade de armazenar o estado de uma entidade Leitor de
+ * Input
+ *
+ * @author João Fernandes
+ * @author Rodrigo Santos
  */
 public class InputReader {
 
@@ -29,6 +32,11 @@ public class InputReader {
         System.out.print(question);
     }
 
+    /**
+     * Leitura de um númeor real
+     * @param question Texto a colocar no ecrã
+     * @return Valor introduzido
+     */
     public double getRealNumber(String question) {
         showFormattedQuestion(question);
 
@@ -41,6 +49,11 @@ public class InputReader {
         return number;
     }
 
+    /**
+     * Leitura de um númeor inteiro
+     * @param question Texto a colocar no ecrã
+     * @return Valor introduzido
+     */
     public int getIntegerNumber(String question) {
         showFormattedQuestion(question);
 
@@ -53,6 +66,11 @@ public class InputReader {
         return number;
     }
 
+    /**
+     * Leitura de um texto
+     * @param question Texto a colocar no ecrã
+     * @return Texto introduzido
+     */
     public String getText(String question) {
         showFormattedQuestion(question);
 

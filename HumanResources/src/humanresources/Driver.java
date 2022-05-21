@@ -7,7 +7,8 @@ package humanresources;
 /**
  * Estrutura com capacidade de armazenar o estado de uma entidade Motorista
  *
- * @author Rodrigo Santos & João Fernnandes
+ * @author João Fernandes
+ * @author Rodrigo Santos
  */
 public class Driver extends Employee {
 
@@ -26,14 +27,29 @@ public class Driver extends Employee {
         this.kilometers = 0;
     }
 
+    /**
+     * Método seletor do atributo kilometers
+     *
+     * @return Valor do aributo kilometers
+     */
     public double getKilometers() {
         return this.kilometers;
     }
 
+    /**
+     * Método modificador do atributo kilometers
+     *
+     * @param kilometers Novo valor a atribuir
+     */
     public void setKilometers(double kilometers) {
         this.kilometers = kilometers;
     }
 
+    /**
+     * Calcula o salário de um motorista
+     *
+     * @return Valor total do salário
+     */
     @Override
     public double calculateSalary() {
         double total = calculateBaseSalary();
@@ -43,6 +59,11 @@ public class Driver extends Employee {
         return total;
     }
 
+    /**
+     * Calcula o salário máximo de um motorista
+     *
+     * @return Valor total do salário
+     */
     @Override
     public double calculateMaxSalary() {
         double total = calculateMaxBaseSalary();
@@ -52,6 +73,11 @@ public class Driver extends Employee {
         return total;
     }
 
+    /**
+     * Retorna a informação de um motorista em formato de cadeia de caracteres
+     *
+     * @return Informação de um motorista
+     */
     @Override
     public String toString() {
         String output = super.toString();

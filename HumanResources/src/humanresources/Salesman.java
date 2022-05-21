@@ -7,7 +7,8 @@ package humanresources;
 /**
  * Estrutura com capacidade de armazenar o estado de uma entidade Comercial
  *
- * @author Rodrigo Santos & João Fernnandes
+ * @author João Fernandes
+ * @author Rodrigo Santos
  */
 public class Salesman extends Employee {
 
@@ -26,23 +27,29 @@ public class Salesman extends Employee {
         this.sales = 0;
     }
 
+    /**
+     * Método seletor do atributo sales
+     *
+     * @return Valor do atributo sales
+     */
     public int getSales() {
         return this.sales;
     }
 
+    /**
+     * Método modificador do atributo sales
+     *
+     * @param sales Novo valor a atribuir
+     */
     public void setSales(int sales) {
         this.sales = sales;
     }
 
-    @Override
-    public String toString() {
-        String output = super.toString();
-
-        output += "\nVendas Realizadas: " + sales;
-
-        return output;
-    }
-
+    /**
+     * Calcula o salário de um comercial
+     *
+     * @return Valor total do salário
+     */
     @Override
     public double calculateSalary() {
         double total = calculateBaseSalary();
@@ -52,6 +59,11 @@ public class Salesman extends Employee {
         return total;
     }
 
+    /**
+     * Calcula o salário máximo de um comercial
+     *
+     * @return Valor total do salário
+     */
     @Override
     public double calculateMaxSalary() {
         double total = calculateMaxBaseSalary();
@@ -59,5 +71,19 @@ public class Salesman extends Employee {
         total += sales * getValues().getSalesPercentage();
 
         return total;
+    }
+
+    /**
+     * Retorna a informação de um comercial em formato de cadeia de caracteres
+     *
+     * @return Informação de um comercial
+     */
+    @Override
+    public String toString() {
+        String output = super.toString();
+
+        output += "\nVendas Realizadas: " + sales;
+
+        return output;
     }
 }
