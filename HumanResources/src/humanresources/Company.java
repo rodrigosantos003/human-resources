@@ -322,33 +322,33 @@ public class Company {
 
         System.out.print("Primeiro trimestre: ");
         cost = calculateCosts(0, 2);
-        System.out.println(" " + cost);
+        System.out.println(String.format("%,.2f", cost) + " €");
 
         System.out.print("Segundo trimestre: ");
         cost = calculateCosts(3, 5);
-        System.out.println(" " + cost);
+        System.out.println(String.format("%,.2f", cost) + " €");
 
         System.out.print("Terceiro trimestre: ");
         cost = calculateCosts(6, 8);
-        System.out.println(" " + cost);
+        System.out.println(String.format("%,.2f", cost) + " €");
 
         System.out.print("Quarto trimestre: ");
         cost = calculateCosts(9, 11);
-        System.out.println(" " + cost);
+        System.out.println(String.format("%,.2f", cost) + " €");
 
         System.out.println("\n\n*** CUSTOS SEMESTRAIS ***");
 
         System.out.print("Primeiro semestre: ");
         cost = calculateCosts(0, 5);
-        System.out.println(" " + cost);
+        System.out.println(String.format("%,.2f", cost) + " €");
 
         System.out.print("Segundo semestre: ");
         cost = calculateCosts(6, 11);
-        System.out.println(" " + cost);
+        System.out.println(String.format("%,.2f", cost) + " €");
 
         System.out.print("\n\n*** CUSTO ANUAL:");
         cost = calculateCosts(0, 11);
-        System.out.println(" " + cost);
+        System.out.println(String.format("%,.2f", cost) + " €");
     }
 
     /**
