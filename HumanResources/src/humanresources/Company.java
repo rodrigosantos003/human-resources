@@ -4,8 +4,14 @@
  */
 package humanresources;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.time.LocalDate;
 
@@ -120,38 +126,38 @@ public class Company {
         entryDate = new Date(localDate.getDayOfMonth(), localDate.getMonthValue(), localDate.getYear());
 
         switch (category.toUpperCase()) {
-            case "GESTOR":
+            case "GESTOR" -> {
                 try {
-                newEmployee = new Manager(employeeName, code, entryDate, this.values);
-                employees.add(newEmployee);
-            } catch (Exception e) {
-                System.out.println("Ocorreu um erro: " + e.getMessage());
+                    newEmployee = new Manager(employeeName, code, entryDate, this.values);
+                    employees.add(newEmployee);
+                } catch (Exception e) {
+                    System.out.println("Ocorreu um erro: " + e.getMessage());
+                }
             }
-            break;
-            case "MOTORISTA":
+            case "MOTORISTA" -> {
                 try {
-                newEmployee = new Driver(employeeName, code, entryDate, this.values);
-                employees.add(newEmployee);
-            } catch (Exception e) {
-                System.out.println("Ocorreu um erro: " + e.getMessage());
+                    newEmployee = new Driver(employeeName, code, entryDate, this.values);
+                    employees.add(newEmployee);
+                } catch (Exception e) {
+                    System.out.println("Ocorreu um erro: " + e.getMessage());
+                }
             }
-            break;
-            case "COMERCIAL":
+            case "COMERCIAL" -> {
                 try {
-                newEmployee = new Salesman(employeeName, code, entryDate, this.values);
-                employees.add(newEmployee);
-            } catch (Exception e) {
-                System.out.println("Ocorreu um erro: " + e.getMessage());
+                    newEmployee = new Salesman(employeeName, code, entryDate, this.values);
+                    employees.add(newEmployee);
+                } catch (Exception e) {
+                    System.out.println("Ocorreu um erro: " + e.getMessage());
+                }
             }
-            break;
-            default:
+            default -> {
                 try {
-                newEmployee = new NormalEmployee(employeeName, code, entryDate, this.values);
-                employees.add(newEmployee);
-            } catch (Exception e) {
-                System.out.println("Ocorreu um erro: " + e.getMessage());
+                    newEmployee = new NormalEmployee(employeeName, code, entryDate, this.values);
+                    employees.add(newEmployee);
+                } catch (Exception e) {
+                    System.out.println("Ocorreu um erro: " + e.getMessage());
+                }
             }
-            break;
         }
     }
 
@@ -253,15 +259,15 @@ public class Company {
         employeeRecords(EmployeeCategory.MANAGER);
         System.out.println("");
 
-        System.out.println("GESTORES (" + totalEmployeesInCategory(EmployeeCategory.DRIVER) + "): ");
+        System.out.println("MOTORISTAS (" + totalEmployeesInCategory(EmployeeCategory.DRIVER) + "): ");
         employeeRecords(EmployeeCategory.DRIVER);
         System.out.println("");
 
-        System.out.println("GESTORES (" + totalEmployeesInCategory(EmployeeCategory.SALESMAN) + "): ");
+        System.out.println("COMERCIAIS (" + totalEmployeesInCategory(EmployeeCategory.SALESMAN) + "): ");
         employeeRecords(EmployeeCategory.SALESMAN);
         System.out.println("");
 
-        System.out.println("GESTORES (" + totalEmployeesInCategory(EmployeeCategory.NORMAL) + "): ");
+        System.out.println("EMPREGADOS NORMAIS (" + totalEmployeesInCategory(EmployeeCategory.NORMAL) + "): ");
         employeeRecords(EmployeeCategory.NORMAL);
         System.out.println("");
     }
@@ -356,20 +362,114 @@ public class Company {
      */
     public void writeEmployeesToFile() {
         try {
-            FileWriter writer = new FileWriter("employees.txt");
+            FileWriter fileWriter = new FileWriter("employees.txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            PrintWriter printWriter = new PrintWriter(bufferedWriter);
 
             for (Employee employee : employees) {
-                writer.write(employee.toString());
-                writer.write("\n");
+                printWriter.println(employee.toString());
+                printWriter.println("");
             }
 
-            writer.flush();
-            writer.close();
+            printWriter.flush();
+            printWriter.close();
 
             System.out.println("Escrita no ficheiro realizada com sucesso!");
         } catch (IOException e) {
             System.out.println("Ocorreu um erro: " + e.getMessage());
         }
+    }
+
+    /**
+     * Carrega os empregados do ficheiro de texto
+     *
+     * @return Lista de empregados do ficheiro
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public ArrayList<Employee> getEmployeesFromFile() throws FileNotFoundException, IOException {
+        ArrayList<Employee> newEmployees = new ArrayList<>();
+
+        File file = new File("employees.txt");
+        
+        if(!file.exists()){
+            throw new FileNotFoundException("File not found");
+        }
+        
+        FileReader fileReader = new FileReader(file);
+        BufferedReader reader = new BufferedReader(fileReader);
+
+        String readCode;
+        readCode = reader.readLine();
+        while (readCode != null) {
+            //Leitura das linhas do ficheiro
+            String readName = reader.readLine();
+            String readCategory = reader.readLine();
+            String readDate = reader.readLine();
+            reader.readLine();
+
+            //Separação das strings
+            String[] codeSplit = readCode.split(": ", 2);
+            String[] nameSplit = readName.split(": ", 2);
+            String[] categorySplit = readCategory.split(": ", 2);
+            String[] dateSplit = readDate.split(": ", 2);
+            String[] separatedDate = dateSplit[1].split("/", 3);
+
+            //Extração dos dados pretendidos das strings
+            int employeeCode = Integer.parseInt(codeSplit[1]);
+            String employeeName = nameSplit[1];
+            String employeeCategory = categorySplit[1];
+            int entryDay = Integer.parseInt(separatedDate[0]);
+            int entryMonth = Integer.parseInt(separatedDate[1]);
+            int entryYear = Integer.parseInt(separatedDate[2]);
+            Date employeeEntryDate = new Date(entryDay, entryMonth, entryYear);
+
+            Employee employee = null;
+
+            switch (employeeCategory.toUpperCase()) {
+                case "GESTOR" -> {
+                    try {
+                        employee = new Manager(employeeName, employeeCode, employeeEntryDate, this.values);
+                        employees.add(employee);
+                    } catch (Exception e) {
+                        System.out.println("Ocorreu um erro: " + e.getMessage());
+                    }
+                }
+                case "MOTORISTA" -> {
+                    try {
+                        employee = new Driver(employeeName, employeeCode, employeeEntryDate, this.values);
+                        employees.add(employee);
+                    } catch (Exception e) {
+                        System.out.println("Ocorreu um erro: " + e.getMessage());
+                    }
+                }
+                case "COMERCIAL" -> {
+                    try {
+                        employee = new Salesman(employeeName, employeeCode, employeeEntryDate, this.values);
+                        employees.add(employee);
+                    } catch (Exception e) {
+                        System.out.println("Ocorreu um erro: " + e.getMessage());
+                    }
+                }
+                default -> {
+                    try {
+                        employee = new NormalEmployee(employeeName, employeeCode, employeeEntryDate, this.values);
+                        employees.add(employee);
+                    } catch (Exception e) {
+                        System.out.println("Ocorreu um erro: " + e.getMessage());
+                    }
+                }
+            }
+
+            newEmployees.add(employee);
+            readCode = reader.readLine();
+        }
+
+        reader.close();
+        
+        System.out.println("Empregados carregados com sucesso!");
+        
+        return newEmployees;
     }
 
     /**
