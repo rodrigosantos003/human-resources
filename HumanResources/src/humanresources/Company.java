@@ -167,9 +167,18 @@ public class Company {
      * @param employees Lista de empregados a adicionar
      */
     public void addMultipleEmployees(ArrayList<Employee> employees) {
+        ArrayList<Employee> employeesToAdd = new ArrayList<>();
+        
+        //Adicionar empregados que não existem
+        for(Employee employee : employees){
+            if(getIndexOfEmployee(employee.getCode()) == -1){
+                employeesToAdd.add(employee);
+            }
+        }
+        
         try {
             if (employees != null) {
-                this.employees.addAll(employees);
+                this.employees.addAll(employeesToAdd);
             } else {
                 throw new IllegalArgumentException("Lista inexistente");
             }

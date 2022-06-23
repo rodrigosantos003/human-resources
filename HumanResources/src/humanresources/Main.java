@@ -18,12 +18,11 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //TESTS
         InputReader input = new InputReader();
-        Company company = new Company("XPTO");
-        
+        Company company = new Company("IPS");
+
         int option;
-        
+
         do {
             System.out.println("*** Gestão de Recursos Humanos ***");
             System.out.println(company + "\n");
@@ -36,19 +35,20 @@ public class Main {
             System.out.println("7. Total de Salários a Pagar");
             System.out.println("8. Custos Trimestrais, Semestrais e Anuais com Salários");
             System.out.println("9. Guardar Lista de Empregados");
+            System.out.println("10. Alterar Informações da Empresa");
             System.out.println("0. Sair do Programa");
-            
+
             option = input.getIntegerNumber("Escolha uma opção");
-            
+
             switch (option) {
                 case 1 ->
                     company.addEmployee();
-                
+
                 case 2 -> {
                     int code = input.getIntegerNumber("Código do Empregado");
                     company.employeeRecord(code);
                 }
-                
+
                 case 3 -> {
                     try {
                         ArrayList<Employee> employees = company.getEmployeesFromFile();
@@ -57,11 +57,11 @@ public class Main {
                         System.out.println("Ocorreu um erro: " + e.getMessage());
                     }
                 }
-                
+
                 case 4 -> {
                     EmployeeCategory employeeCategory;
                     String category = input.getText("Categoria");
-                    
+
                     employeeCategory = switch (category.toUpperCase()) {
                         case "GESTOR" ->
                             EmployeeCategory.MANAGER;
@@ -72,28 +72,48 @@ public class Main {
                         default ->
                             EmployeeCategory.NORMAL;
                     };
-                    
+
                     System.out.println("Nº de Empregados na Categoria: " + company.totalEmployeesInCategory(employeeCategory));
                 }
-                
+
                 case 5 ->
                     company.employeeRecords();
-                
+
                 case 6 ->
                     company.employeeRecordsByCategory();
-                
+
                 case 7 ->
                     company.totalInSalaries();
-                
+
                 case 8 ->
                     company.showCosts();
-                
+
                 case 9 ->
                     company.writeEmployeesToFile();
-                
+
+                case 10 -> {
+                    String changeName = input.getText("Alterar nome da empresa (S/N)");
+
+                    if (changeName.toUpperCase().equals("S")) {
+                        company.setName(input.getText("Novo nome"));
+                    } else if (!changeName.toUpperCase().equals("N")) {
+                        System.out.println("Resposta inválidada!");
+                    }
+
+                    String changeValues = input.getText("Alterar valores fixados (S/N)");
+                    if (changeValues.toUpperCase().equals("S")) {
+                        double workdayValue = input.getRealNumber("Valor por dia de trabalho");
+                        double kilometerValue = input.getRealNumber("Valor por quilómetro");
+                        double salesPercentage = input.getRealNumber("Percentagem de vendas");
+                        company.changeCompanyValues(workdayValue, kilometerValue, salesPercentage);
+                    } else if (!changeName.toUpperCase().equals("N")) {
+                        System.out.println("Resposta inválidada!");
+                    }
+                }
+
                 case 0 ->
                     System.exit(0);
-                
+
                 default -> {
                     System.out.println("Opção inválida!");
                     break;
