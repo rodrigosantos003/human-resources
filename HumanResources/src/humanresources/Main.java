@@ -17,37 +17,12 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static boolean showEmpresas(ArrayList<Company> companies) {
-        if (companies.size() == 0) {
-            return false;
-        } else {
-            System.out.println("\nLista de Empresas: \n");
-            for (Company company : companies) {
-                System.out.println(company + "\n");
-            }
-            return true;
-        }
-    }
-
-    public static Company getEmpresa(ArrayList<Company> companies, String companyName) {
-        if (companies.size() == 0) {
-            return null;
-        } else {
-            for (Company company : companies) {
-                if (company.getName().equals(companyName)) {
-                    return company;
-                }
-            }
-        }
-        return null;
-    }
-
     public static void main(String[] args) {
+        CompanyManager companyManager = new CompanyManager();
+        ArrayList<Company> companies = companyManager.getCompaniesList();
+        Company selectedCompany = companyManager.getSelectedCompany();
+
         InputReader input = new InputReader();
-
-        ArrayList<Company> companies = new ArrayList<>();
-
-        Company selectedCompany;
 
         int option = 0;
         int secOption = 0;
@@ -64,7 +39,7 @@ public class Main {
 
             switch (option) {
                 case 1 -> {
-                    if (!showEmpresas(companies)) {
+                    if (!companyManager.showCompanies()) {
                         System.out.println("\nNão existem empresas dentro da lista.");
                     }
                     break;
@@ -73,7 +48,7 @@ public class Main {
                 case 2 -> {
                     String nomeEmpresa = input.getText("\nEscolha um nome para a empresa");
 
-                    if (getEmpresa(companies, nomeEmpresa) == null) {
+                    if (companyManager.getCompany(nomeEmpresa) == null) {
                         companies.add(new Company(nomeEmpresa));
                         System.out.println("A empresa " + nomeEmpresa + " foi adicionada com sucesso!");
                     } else {
@@ -83,9 +58,9 @@ public class Main {
                 }
 
                 case 3 -> {
-                    if (showEmpresas(companies)) {
+                    if (companyManager.showCompanies()) {
                         String nomeEmpresa = input.getText("Empresa que pretende remover");
-                        selectedCompany = getEmpresa(companies, nomeEmpresa);
+                        companyManager.setSelectedCompany(companyManager.getCompany(nomeEmpresa));
                         if (selectedCompany != null) {
                             companies.remove(selectedCompany);
                             System.out.println("A empresa " + nomeEmpresa + " foi removida com sucesso!");
@@ -99,13 +74,13 @@ public class Main {
                 }
 
                 case 4 -> {
-                    if (showEmpresas(companies)) {
+                    if (companyManager.showCompanies()) {
                         String nomeEmpresa = input.getText("\nEmpresa que pretende editar");
-                        selectedCompany = getEmpresa(companies, nomeEmpresa);
+                        selectedCompany = companyManager.getCompany(nomeEmpresa);
                         if (selectedCompany != null) {
                             //<editor-fold desc="Menu de gestão de uma empresa">
                             do {
-                                System.out.println("*** Gestão de Recursos Humanos ***");
+                                System.out.println("\n*** Gestão de Recursos Humanos ***");
                                 System.out.println(selectedCompany + "\n");
                                 System.out.println("1. Adicionar Empregado");
                                 System.out.println("2. Pesquisar Empregado");
