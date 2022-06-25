@@ -119,7 +119,7 @@ public abstract class Employee {
      * @param days Número de dias trabalhados
      */
     public void setWorkedDays(int month, int days) {
-        if (days > 0 && days < this.values.getMaxWorkDays()) {
+        if (days >= 0 && days <= this.values.getMaxWorkDays() && month >= 0 && month <= 11) {
             workedDays[month] = days;
         }
     }

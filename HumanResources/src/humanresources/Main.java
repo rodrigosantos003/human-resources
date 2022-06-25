@@ -93,7 +93,8 @@ public class Main {
                                 System.out.println("8. Custos Trimestrais, Semestrais e Anuais com Salários");
                                 System.out.println("9. Guardar Lista de Empregados");
                                 System.out.println("10. Alterar Informações da Empresa");
-                                System.out.println("11. Incrementar Dias Trabalhados");
+                                System.out.println("11. Incrementar Dias Trabalhados (Todos os Empregados)");
+                                System.out.println("12. Editar Empregado");
                                 System.out.println("0. Voltar ao menu");
 
                                 secOption = input.getIntegerNumber("Escolha uma opção");
@@ -141,7 +142,7 @@ public class Main {
                                         selectedCompany.employeeRecordsByCategory();
 
                                     case 7 ->
-                                        selectedCompany.totalInSalaries();
+                                        System.out.println("Total em Salários: " + String.format("%,.2f", selectedCompany.totalInSalaries()) + " €");
 
                                     case 8 ->
                                         selectedCompany.showCosts();
@@ -155,7 +156,7 @@ public class Main {
                                         if (changeName.toUpperCase().equals("S")) {
                                             selectedCompany.setName(input.getText("Novo nome"));
                                         } else if (!changeName.toUpperCase().equals("N")) {
-                                            System.out.println("Resposta inválidada!");
+                                            System.out.println("Resposta inválida!");
                                         }
 
                                         String changeValues = input.getText("Alterar valores fixados (S/N)");
@@ -165,26 +166,48 @@ public class Main {
                                             double salesPercentage = input.getRealNumber("Percentagem de vendas");
                                             selectedCompany.changeCompanyValues(workdayValue, kilometerValue, salesPercentage);
                                         } else if (!changeName.toUpperCase().equals("N")) {
-                                            System.out.println("Resposta inválidada!");
+                                            System.out.println("Resposta inválida!");
                                         }
                                     }
                                     case 11 -> {
-                                        String incrementAll = input.getText("Incrementar dias de trabalho a todos os empregados (S/N)");
-                                        if (incrementAll.toUpperCase().equals("S")) {
-                                            selectedCompany.increaseWorkedDays();
-                                        } else if (incrementAll.toUpperCase().equals("N")) {
-                                            int employeeCode = input.getIntegerNumber("Código do empregado a incrementar dias");
-                                            Employee employeeToIncrement = selectedCompany.getEmployee(employeeCode);
-                                            if (employeeToIncrement != null) {
-                                                int month = input.getIntegerNumber("Mês a incrementar");
-                                                int days = input.getIntegerNumber("Número de dias trabalhados");
-                                                if (month - 1 >= 0 && month - 1 <= 11) {
-                                                    if (days > 0 && days <= 22) {
-                                                        employeeToIncrement.setWorkedDays(month, days);
-                                                        System.out.println("Dias incrementados com sucesso!");
-                                                    } else System.out.println("Número de dias inválido");
-                                                } else System.out.println("Mês inválido");
+                                        selectedCompany.increaseWorkedDays();
+                                        System.out.println("Dias incrementados com sucesso!");
+                                    }
+
+                                    case 12 -> {
+                                        int employeeCode = input.getIntegerNumber("Códgio do empregado a editar");
+                                        Employee employeeToEdit = selectedCompany.getEmployee(employeeCode);
+                                        if (employeeToEdit != null) {
+                                            EmployeeCategory employeeCategory = employeeToEdit.getCategory();
+                                            String answer;
+                                            if (employeeCategory == EmployeeCategory.DRIVER) {
+                                                answer = input.getText("Editar os quilómetros percorridos (S/N)?");
+                                                if (answer.toUpperCase().equals("S")) {
+                                                    double kilometers = input.getRealNumber("Nº de quilómetros");
+                                                    ((Driver) employeeToEdit).setKilometers(kilometers);
+                                                } else if (!answer.toUpperCase().equals("N")) {
+                                                    System.out.println("Resposta inválida!");
+                                                }
+                                            } else if (employeeCategory == EmployeeCategory.SALESMAN) {
+                                                answer = input.getText("Editar número de vendas (S/N)?");
+                                                if (answer.toUpperCase().equals("S")) {
+                                                    int sales = input.getIntegerNumber("Nº de vendas");
+                                                    ((Salesman) employeeToEdit).setSales(sales);
+                                                } else if (!answer.toUpperCase().equals("N")) {
+                                                    System.out.println("Resposta inválida!");
+                                                }
                                             }
+
+                                            answer = input.getText("Editar dias trabalhados (S/N)?");
+                                            if (answer.toUpperCase().equals("S")) {
+                                                int month = input.getIntegerNumber("Mês a editar");
+                                                int days = input.getIntegerNumber("Nº de dias trabalhados");
+                                                employeeToEdit.setWorkedDays(month - 1, days);
+                                            } else if (!answer.toUpperCase().equals("N")) {
+                                                System.out.println("Resposta inválida!");
+                                            }
+                                        } else {
+                                            System.out.println("O empregado não existe!");
                                         }
                                     }
                                     case 0 -> {

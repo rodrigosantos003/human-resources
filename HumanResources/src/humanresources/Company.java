@@ -223,6 +223,7 @@ public class Company {
      * Devolve um objeto do tipo Empregado da ArrayList através do seu código
      *
      * @param code Código do empregado
+     * @return Empregado obtido
      */
     public Employee getEmployee(int code) {
         int index = getIndexOfEmployee(code);
