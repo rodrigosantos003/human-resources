@@ -20,7 +20,6 @@ public class Main {
     public static void main(String[] args) {
         CompanyManager companyManager = new CompanyManager();
         ArrayList<Company> companies = companyManager.getCompaniesList();
-        Company selectedCompany = companyManager.getSelectedCompany();
 
         InputReader input = new InputReader();
 
@@ -61,8 +60,9 @@ public class Main {
                     if (companyManager.showCompanies()) {
                         String nomeEmpresa = input.getText("Empresa que pretende remover");
                         companyManager.setSelectedCompany(companyManager.getCompany(nomeEmpresa));
-                        if (selectedCompany != null) {
-                            companies.remove(selectedCompany);
+                        System.out.println(companyManager.getSelectedCompany().getName());
+                        if (companyManager.getSelectedCompany() != null) {
+                            companies.remove(companyManager.getSelectedCompany());
                             System.out.println("A empresa " + nomeEmpresa + " foi removida com sucesso!");
                         } else {
                             System.out.println("Empresa não encontrada");
@@ -76,7 +76,8 @@ public class Main {
                 case 4 -> {
                     if (companyManager.showCompanies()) {
                         String nomeEmpresa = input.getText("\nEmpresa que pretende editar");
-                        selectedCompany = companyManager.getCompany(nomeEmpresa);
+                        companyManager.setSelectedCompany(companyManager.getCompany(nomeEmpresa));
+                        Company selectedCompany = companyManager.getSelectedCompany();
                         if (selectedCompany != null) {
                             //<editor-fold desc="Menu de gestão de uma empresa">
                             do {
@@ -92,6 +93,7 @@ public class Main {
                                 System.out.println("8. Custos Trimestrais, Semestrais e Anuais com Salários");
                                 System.out.println("9. Guardar Lista de Empregados");
                                 System.out.println("10. Alterar Informações da Empresa");
+                                System.out.println("11. Incrementar Dias Trabalhados");
                                 System.out.println("0. Voltar ao menu");
 
                                 secOption = input.getIntegerNumber("Escolha uma opção");
@@ -164,6 +166,25 @@ public class Main {
                                             selectedCompany.changeCompanyValues(workdayValue, kilometerValue, salesPercentage);
                                         } else if (!changeName.toUpperCase().equals("N")) {
                                             System.out.println("Resposta inválidada!");
+                                        }
+                                    }
+                                    case 11 -> {
+                                        String incrementAll = input.getText("Incrementar dias de trabalho a todos os empregados (S/N)");
+                                        if (incrementAll.toUpperCase().equals("S")) {
+                                            selectedCompany.increaseWorkedDays();
+                                        } else if (incrementAll.toUpperCase().equals("N")) {
+                                            int employeeCode = input.getIntegerNumber("Código do empregado a incrementar dias");
+                                            Employee employeeToIncrement = selectedCompany.getEmployee(employeeCode);
+                                            if (employeeToIncrement != null) {
+                                                int month = input.getIntegerNumber("Mês a incrementar");
+                                                int days = input.getIntegerNumber("Número de dias trabalhados");
+                                                if (month - 1 >= 0 && month - 1 <= 11) {
+                                                    if (days > 0 && days <= 22) {
+                                                        employeeToIncrement.setWorkedDays(month, days);
+                                                        System.out.println("Dias incrementados com sucesso!");
+                                                    } else System.out.println("Número de dias inválido");
+                                                } else System.out.println("Mês inválido");
+                                            }
                                         }
                                     }
                                     case 0 -> {

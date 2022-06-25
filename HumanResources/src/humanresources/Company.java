@@ -130,6 +130,7 @@ public class Company {
                 try {
                     newEmployee = new Manager(employeeName, code, entryDate, this.values);
                     employees.add(newEmployee);
+                    System.out.println("Empregado adicionado com sucesso!");
                 } catch (Exception e) {
                     System.out.println("Ocorreu um erro: " + e.getMessage());
                 }
@@ -138,6 +139,7 @@ public class Company {
                 try {
                     newEmployee = new Driver(employeeName, code, entryDate, this.values);
                     employees.add(newEmployee);
+                    System.out.println("Empregado adicionado com sucesso!");
                 } catch (Exception e) {
                     System.out.println("Ocorreu um erro: " + e.getMessage());
                 }
@@ -146,6 +148,7 @@ public class Company {
                 try {
                     newEmployee = new Salesman(employeeName, code, entryDate, this.values);
                     employees.add(newEmployee);
+                    System.out.println("Empregado adicionado com sucesso!");
                 } catch (Exception e) {
                     System.out.println("Ocorreu um erro: " + e.getMessage());
                 }
@@ -154,6 +157,7 @@ public class Company {
                 try {
                     newEmployee = new NormalEmployee(employeeName, code, entryDate, this.values);
                     employees.add(newEmployee);
+                    System.out.println("Empregado adicionado com sucesso!");
                 } catch (Exception e) {
                     System.out.println("Ocorreu um erro: " + e.getMessage());
                 }
@@ -179,6 +183,7 @@ public class Company {
         try {
             if (employees != null) {
                 this.employees.addAll(employeesToAdd);
+                System.out.println("Lista carregada com sucesso com sucesso!");
             } else {
                 throw new IllegalArgumentException("Lista inexistente");
             }
@@ -204,7 +209,7 @@ public class Company {
      * @return Índice do empregado na ArrayList (caso exista) ou -1 (caso não
      * exista)
      */
-    public int getIndexOfEmployee(int code) {
+    private int getIndexOfEmployee(int code) {
         for (Employee employee : employees) {
             if (employee.getCode() == code) {
                 return employees.indexOf(employee);
@@ -219,7 +224,7 @@ public class Company {
      *
      * @param code Código do empregado
      */
-    private Employee getEmployee(int code) {
+    public Employee getEmployee(int code) {
         int index = getIndexOfEmployee(code);
         if (index == -1) {
             System.out.println("ERRO: O empregado não existe!");
