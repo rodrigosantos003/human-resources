@@ -393,8 +393,8 @@ public class Company {
      * Carrega os empregados do ficheiro de texto
      *
      * @return Lista de empregados do ficheiro
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException FileNotFoundException
+     * @throws IOException IOException
      */
     public ArrayList<Employee> getEmployeesFromFile() throws FileNotFoundException, IOException {
         ArrayList<Employee> newEmployees = new ArrayList<>();
