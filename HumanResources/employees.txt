@@ -1,5 +1,16 @@
 Código: 1
-Nome: Rodrigo Santos
+Nome: Rodrigo
 Categoria: Gestor
-Data Entrada: 21/6/2022
+Data Entrada: 26/6/2022
+
+Código: 2
+Nome: Joao
+Categoria: Motorista
+Data Entrada: 26/6/2022
+Quilómetros Percorridos: 0.0
+
+Código: 3
+Nome: Filipe
+Categoria: Normal
+Data Entrada: 26/6/2022
 

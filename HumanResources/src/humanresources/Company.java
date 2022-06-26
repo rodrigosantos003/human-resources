@@ -172,14 +172,14 @@ public class Company {
      */
     public void addMultipleEmployees(ArrayList<Employee> employees) {
         ArrayList<Employee> employeesToAdd = new ArrayList<>();
-        
+
         //Adicionar empregados que não existem
-        for(Employee employee : employees){
-            if(getIndexOfEmployee(employee.getCode()) == -1){
+        for (Employee employee : employees) {
+            if (getIndexOfEmployee(employee.getCode()) == -1) {
                 employeesToAdd.add(employee);
             }
         }
-        
+
         try {
             if (employees != null) {
                 this.employees.addAll(employeesToAdd);
@@ -250,6 +250,7 @@ public class Company {
     public void employeeRecords() {
         for (Employee employee : employees) {
             System.out.println(employee);
+            System.out.println();
         }
     }
 
@@ -262,6 +263,7 @@ public class Company {
         for (Employee employee : employees) {
             if (employee.getCategory() == category) {
                 System.out.println(employee);
+                System.out.println();
             }
         }
     }
@@ -406,11 +408,11 @@ public class Company {
         ArrayList<Employee> newEmployees = new ArrayList<>();
 
         File file = new File("employees.txt");
-        
-        if(!file.exists()){
+
+        if (!file.exists()) {
             throw new FileNotFoundException("File not found");
         }
-        
+
         FileReader fileReader = new FileReader(file);
         BufferedReader reader = new BufferedReader(fileReader);
 
@@ -423,67 +425,70 @@ public class Company {
             String readDate = reader.readLine();
             reader.readLine();
 
-            //Separação das strings
-            String[] codeSplit = readCode.split(": ", 2);
-            String[] nameSplit = readName.split(": ", 2);
-            String[] categorySplit = readCategory.split(": ", 2);
-            String[] dateSplit = readDate.split(": ", 2);
-            String[] separatedDate = dateSplit[1].split("/", 3);
+            if (readName != null) {
+                //Separação das strings
+                String[] codeSplit = readCode.split(": ", 2);
+                String[] nameSplit = readName.split(": ", 2);
+                String[] categorySplit = readCategory.split(": ", 2);
+                String[] dateSplit = readDate.split(": ", 2);
+                String[] separatedDate = dateSplit[1].split("/", 3);
 
-            //Extração dos dados pretendidos das strings
-            int employeeCode = Integer.parseInt(codeSplit[1]);
-            String employeeName = nameSplit[1];
-            String employeeCategory = categorySplit[1];
-            int entryDay = Integer.parseInt(separatedDate[0]);
-            int entryMonth = Integer.parseInt(separatedDate[1]);
-            int entryYear = Integer.parseInt(separatedDate[2]);
-            Date employeeEntryDate = new Date(entryDay, entryMonth, entryYear);
+                //Extração dos dados pretendidos das strings
+                int employeeCode = Integer.parseInt(codeSplit[1]);
+                String employeeName = nameSplit[1];
+                String employeeCategory = categorySplit[1];
+                int entryDay = Integer.parseInt(separatedDate[0]);
+                int entryMonth = Integer.parseInt(separatedDate[1]);
+                int entryYear = Integer.parseInt(separatedDate[2]);
+                Date employeeEntryDate = new Date(entryDay, entryMonth, entryYear);
 
-            Employee employee = null;
+                Employee employee = null;
 
-            switch (employeeCategory.toUpperCase()) {
-                case "GESTOR" -> {
-                    try {
-                        employee = new Manager(employeeName, employeeCode, employeeEntryDate, this.values);
-                        employees.add(employee);
-                    } catch (Exception e) {
-                        System.out.println("Ocorreu um erro: " + e.getMessage());
+                switch (employeeCategory.toUpperCase()) {
+                    case "GESTOR" -> {
+                        try {
+                            employee = new Manager(employeeName, employeeCode, employeeEntryDate, this.values);
+                            newEmployees.add(employee);
+                        } catch (Exception e) {
+                            System.out.println("Ocorreu um erro: " + e.getMessage());
+                        }
                     }
-                }
-                case "MOTORISTA" -> {
-                    try {
-                        employee = new Driver(employeeName, employeeCode, employeeEntryDate, this.values);
-                        employees.add(employee);
-                    } catch (Exception e) {
-                        System.out.println("Ocorreu um erro: " + e.getMessage());
+                    case "MOTORISTA" -> {
+                        try {
+                            employee = new Driver(employeeName, employeeCode, employeeEntryDate, this.values);
+                            newEmployees.add(employee);
+                            reader.readLine(); //Descartar linha de quilómetros percorridos
+                        } catch (Exception e) {
+                            System.out.println("Ocorreu um erro: " + e.getMessage());
+                        }
                     }
-                }
-                case "COMERCIAL" -> {
-                    try {
-                        employee = new Salesman(employeeName, employeeCode, employeeEntryDate, this.values);
-                        employees.add(employee);
-                    } catch (Exception e) {
-                        System.out.println("Ocorreu um erro: " + e.getMessage());
+                    case "COMERCIAL" -> {
+                        try {
+                            employee = new Salesman(employeeName, employeeCode, employeeEntryDate, this.values);
+                            newEmployees.add(employee);
+                            reader.readLine(); //Descartar linha de vendas realizadas
+                        } catch (Exception e) {
+                            System.out.println("Ocorreu um erro: " + e.getMessage());
+                        }
                     }
-                }
-                default -> {
-                    try {
-                        employee = new NormalEmployee(employeeName, employeeCode, employeeEntryDate, this.values);
-                        employees.add(employee);
-                    } catch (Exception e) {
-                        System.out.println("Ocorreu um erro: " + e.getMessage());
+                    default -> {
+                        try {
+                            employee = new NormalEmployee(employeeName, employeeCode, employeeEntryDate, this.values);
+                            newEmployees.add(employee);
+                        } catch (Exception e) {
+                            System.out.println("Ocorreu um erro: " + e.getMessage());
+                        }
                     }
                 }
             }
-
-            newEmployees.add(employee);
+            
             readCode = reader.readLine();
         }
 
         reader.close();
-        
+
         System.out.println("Empregados carregados com sucesso!");
-        
+
         return newEmployees;
     }
 
